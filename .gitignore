@@ -1,0 +1,8 @@
+# Dependencies
+node_modules
+
+# Build dir
+/dist
+
+# IntelliJ project files
+.idea
