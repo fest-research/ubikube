@@ -3,7 +3,6 @@
     "rootDir" : "src/app",
     "target": "ES6",
     "module": "commonjs",
-    "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
