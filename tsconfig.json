@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "rootDir" : "src/app",
-    "target": "ES5",
-    "module": "system",
+    "target": "ES6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
