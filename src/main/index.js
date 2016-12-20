@@ -1,25 +1,25 @@
 import path from 'path';
 import url from 'url';
-import { BrowserWindow, app } from 'electron';
+import {BrowserWindow, app} from 'electron';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 const createWindow = () => {
-  win = new BrowserWindow({ width: 800, height: 600 });
+  win = new BrowserWindow({width: 800, height: 600});
 
-  win.loadURL(
-    process.env.NODE_ENV !== 'production' ?
-    'http://localhost:8080' :
-    url.format({
+  if (process.env.NODE_ENV === 'production') {
+    win.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file:',
       slashes: true,
-    }),
-  );
+    }));
 
-  if (process.env.NODE_ENV !== 'production') {
+    // Hide menu bar
+    win.setMenu(null);
+  } else {
+    win.loadURL('http://localhost:8080');
     win.webContents.openDevTools();
   }
 
