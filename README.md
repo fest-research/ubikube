@@ -1,18 +1,19 @@
 # Kube Flash
-Electron app flashing card images for IoT.
+Electron app flashing card images.
 
-Built on Neuron boilerplate.
+### Setup
+```
+git clone https://github.com/maciaszczykm/kube-flash.git
+cd kube-flash
+npm install
+```
 
-### Preparation
-
-    git clone https://github.com/maciaszczykm/kube-flash.git
-    cd kube-flash
-    npm install
-
-### Building
-
-    npm build
+### Build
+```
+npm build
+```
 
 ### Usage
-
-    npm start
+```
+npm start
+```
