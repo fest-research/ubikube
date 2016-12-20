@@ -5,6 +5,7 @@ Electron app flashing card images.
 ```
 git clone https://github.com/maciaszczykm/kube-flash.git
 cd kube-flash
+npm install
 ```
 
 ### Build
