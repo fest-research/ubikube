@@ -1,8 +1,5 @@
 # Build artifacts
-app/bundle.js
-app/index.html
-app/node_modules/
-dist/
+public/*.js
 
 # IDE files
 .idea
