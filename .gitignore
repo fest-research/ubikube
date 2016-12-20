@@ -1,5 +1,11 @@
-node_modules
-.env
-.idea
+# Build
 dist
-typings
+
+# Dependencies
+node_modules
+
+# IDE
+.idea
+
+# Logs
+npm-debug.log
