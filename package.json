@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-webpack-hmr-example",
-  "version": "1.0.0",
+  "name": "kube-flash",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
