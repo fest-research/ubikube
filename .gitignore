@@ -1,5 +1,12 @@
-node_modules
-.env
+# IntelliJ files
 .idea
-dist
-typings
+
+# Build artifacts
+app/bundle.js
+app/index.html
+app/node_modules/
+dist/
+
+# npm files
+node_modules/
+npm-debug.log

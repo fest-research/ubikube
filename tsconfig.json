@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
-    "rootDir" : "src/app",
-    "target": "ES6",
     "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "jsx": "react"
+    "outDir": "build/tsc",
+    "jsx": "react",
+    "types": ["mocha", "node"]
   },
+  "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+  ],
   "exclude": [
-    "node_modules"
+      "node_modules"
+  ],
+  "files": [
+    "type-declarations/globals.d.ts"
   ]
 }
