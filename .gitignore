@@ -1,11 +1,12 @@
-# Build
-dist
+# Build artifacts
+app/bundle.js
+app/index.html
+app/node_modules/
+dist/
 
-# Dependencies
-node_modules
-
-# IDE
+# IDE files
 .idea
 
-# Logs
+# NPM files
+node_modules/
 npm-debug.log
