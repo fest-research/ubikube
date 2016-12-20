@@ -15,7 +15,7 @@
     "electron": "^1.4.10",
     "material-ui": "^0.16.5",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1",
+    "react-dom": "^15.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
