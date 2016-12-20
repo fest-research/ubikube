@@ -12,7 +12,6 @@ const installExtenstions = () => {
 
   const extensions = [
     'REACT_DEVELOPER_TOOLS',
-    'REDUX_DEVTOOLS'
   ];
   for (const name of extensions) {
     try {
