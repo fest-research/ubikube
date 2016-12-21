@@ -8,14 +8,15 @@
     "build:main": "cross-env NODE_ENV=production webpack -p --config webpack.config.main.babel.js",
     "build:renderer": "cross-env NODE_ENV=production webpack -p --config webpack.config.renderer.babel.js",
     "start": "run-p start:*",
-    "start:main": "electron --require babel-register src/main",
+    "start:main": "electron --require babel-register src/electron.js",
     "start:renderer": "cross-env NODE_ENV=development webpack-dev-server -d --config webpack.config.renderer.babel.js"
   },
   "dependencies": {
     "electron": "^1.4.10",
     "material-ui": "^0.16.5",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

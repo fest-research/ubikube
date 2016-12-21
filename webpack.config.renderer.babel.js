@@ -8,7 +8,7 @@ export default {
   entry: {
     renderer: [
       'react-hot-loader/patch',
-      path.join(__dirname, process.env.NODE_ENV === 'production' ? 'src/renderer' : 'src/renderer/index.dev'),
+      path.join(__dirname, process.env.NODE_ENV === 'production' ? 'src/app' : 'src/app/index.dev'),
     ],
   },
   devServer: {
