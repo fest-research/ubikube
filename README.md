@@ -1,10 +1,10 @@
-# Kube Flash
+# Ubikube
 Electron app flashing card images.
 
 ### Setup
 ```
-git clone https://github.com/maciaszczykm/kube-flash.git
-cd kube-flash
+git clone git@github.com:maciaszczykm/ubikube.git
+cd ubikube
 npm install
 ```
 
