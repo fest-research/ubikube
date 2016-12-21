@@ -9,7 +9,7 @@ export default class Ubikube extends React.Component {
   render() {
     return <MuiThemeProvider>
       <div>
-        <Toolbar/>
+        <Toolbar title="Ubikube"/>
         <InputField/>
         <Button/>
       </div>
