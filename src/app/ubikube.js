@@ -1,17 +1,15 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Content from './Content';
-import Button from './Button';
-import TopBar from './AppBar';
+import Button from './components/Button';
+import Toolbar from './components/toolbar';
 
-export default class App extends React.Component {
+export default class Ubikube extends React.Component {
   render() {
     return <MuiThemeProvider>
       <div>
-        <TopBar/>
+        <Toolbar/>
         <Button/>
-        <Content/>
       </div>
     </MuiThemeProvider>
   }
