@@ -5,7 +5,7 @@ import baseConfig from './webpack.config.base';
 export default {
   ...baseConfig,
   entry: {
-    main: path.join(__dirname, 'src/electron.js'),
+    electron: path.join(__dirname, 'src/electron.js'),
   },
   target: 'electron',
   node: {

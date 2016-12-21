@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const getBabelLoader = () => {
   const baseOptions = JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc'), 'utf-8'));
@@ -8,11 +9,11 @@ const getBabelLoader = () => {
     presets: baseOptions.presets.map(preset => (
       preset === 'es2015' ? ['es2015', { modules: false }] : preset
     )),
-    babelrc: false,
+    babelrc: false
   };
   return {
     loader: 'babel-loader',
-    options,
+    options
   };
 };
 
@@ -20,15 +21,25 @@ export default {
   output: {
     path: path.join(__dirname, 'public'),
     filename: '[name].js',
-    publicPath: '/',
+    publicPath: '/'
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         include: path.join(__dirname, 'src'),
-        loader: getBabelLoader(),
+        loader: getBabelLoader()
       },
-    ],
-  },
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        include: path.join(__dirname, 'src')
+      },
+      ...(process.env.NODE_ENV === 'production' ?
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+      } : {})
+    ]
+  }
 };
