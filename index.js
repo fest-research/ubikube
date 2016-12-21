@@ -1,1 +1,1 @@
-require('./public/main');
+require('./public/electron');
