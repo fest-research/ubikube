@@ -15,7 +15,11 @@ export default class Ubikube extends React.Component {
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
         <Card>
-          <InputField/>
+          <InputField title="os"/>
+          <InputField title="token"/>
+          <InputField title="hostname"/>
+          <InputField title="sd card"/>
+          <InputField title="wifi"/>
           <Button/>
         </Card>
       </div>
