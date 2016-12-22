@@ -1,13 +1,30 @@
 import React from 'react';
-import AppBar from 'material-ui/AppBar';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import electron from 'electron';
 
 import styles from './toolbar.scss';
 
-export default class Toolbar extends React.Component {
+export default class ToolBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this._close = this._close.bind(this)
+  }
+
+  _close() {
+    let window = electron.remote.getCurrentWindow();
+    window.close();
+  }
+  
   render() {
-    return <AppBar className={styles.ukToolbar}
-                   title={this.props.title}
-                   zDepth={1}
-                   showMenuIconButton={false}/>
+    return <Toolbar className={styles.ukToolbar}>
+      <ToolbarGroup firstChild={true}>
+        <ToolbarTitle className={styles.ukToolbarTitle} text={this.props.title}/>
+      </ToolbarGroup>
+      <ToolbarGroup>
+        <IconButton iconClassName={'material-icons ' + styles.ukToolbarIcon}
+                    onClick={this._close}>close</IconButton>
+      </ToolbarGroup>
+    </Toolbar>
   }
 }

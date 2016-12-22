@@ -3,5 +3,15 @@
 
   // Make our app draggable but only on toolbar
   -ms-overflow-style: scrollbar;
-  -webkit-app-region:drag;
+  -webkit-app-region: drag;
+}
+
+.ukToolbarTitle {
+  color: white !important;
+  margin-left: 24px;
+}
+
+.ukToolbarIcon {
+  color: white !important;
+  -webkit-app-region: no-drag;
 }

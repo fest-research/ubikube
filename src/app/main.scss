@@ -1,11 +1,6 @@
 html, body {
   height: 100%;
-  background-color: red;
-}
-
-body {
   margin: 0;
-  height: 100%;
 }
 
 .ukRoot {
@@ -15,6 +10,7 @@ body {
 }
 
 .ukCard {
+  height: 100%;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;

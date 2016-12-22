@@ -5,10 +5,10 @@ import {grey500} from 'material-ui/styles/colors';
 const fujitsuRed = '#c80000';
 
 export const fjTheme = getMuiTheme({
-  appBar: {
-    color: fujitsuRed,
+  toolbar: {
+    backgroundColor: fujitsuRed,
     height: 64,
-    textColor: white,
+    titleFontSize: 24,
   },
   palette: {
     accent1Color: fujitsuRed,
