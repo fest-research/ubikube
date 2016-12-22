@@ -9,3 +9,6 @@ public/*.css
 # NPM files
 node_modules/
 npm-debug.log
+
+# OS files
+.DS_Store

@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import FlashButton from './components/flashbutton';
 import Toolbar from './components/toolbar';
 import Tip from './components/tip'
+import OSSelectField from './components/osselectfield'
 
 import {fjTheme} from './fjtheme';
 import styles from './main.scss';
@@ -51,7 +52,7 @@ export default class Ubikube extends React.Component {
             <Tip text="Memory card to be flashed."/>
           </div>
           <div>
-            <TextField className={styles.ukTextField} hintText="Operating system"/>
+            <OSSelectField/>
             <Tip text="Operating system to be flashed on memory card."/>
           </div>
           <div>

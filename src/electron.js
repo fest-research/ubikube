@@ -10,10 +10,9 @@ const createWindow = () => {
     minHeight: 800,
     maxWidth: 1181,
     maxHeight: 800,
-    frame: false,
+    //frame: false, // disabled due to multiple issues with dragging window
     show: false,
-    // For MacOS
-    titleBarStyle: 'hidden'
+    //titleBarStyle: 'hidden' // same as above
   });
 
   if (process.env.NODE_ENV === 'production') {
