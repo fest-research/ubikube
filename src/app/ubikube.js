@@ -63,8 +63,6 @@ export default class Ubikube extends React.Component {
             <Tip text="Hostname of the device which will use flashed memory card."/>
           </div>
 
-
-
           {advancedSection}
           <FlatButton label="Advanced" className={styles.ukAdvancedButton}
                       onClick={this._switchAdvancedSectionVisiblity}/>

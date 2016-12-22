@@ -1,5 +1,7 @@
 # Build artifacts
 public/*.js
+public/*.jpg
+public/*.css
 
 # IDE files
 .idea
