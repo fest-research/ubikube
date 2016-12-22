@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Button from './components/flashbutton';
 import Toolbar from './components/toolbar';
 import InputField from './components/inputfield'
-import Card from './components/card'
+import ContentCard from './components/contentcard'
 
 import {fjTheme} from './fjtheme';
 import styles from './main.scss';
@@ -14,14 +14,14 @@ export default class Ubikube extends React.Component {
     return <MuiThemeProvider muiTheme={fjTheme}>
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
-        <Card>
+        <ContentCard>
           <InputField title="os"/>
           <InputField title="token"/>
           <InputField title="hostname"/>
           <InputField title="sd card"/>
           <InputField title="wifi"/>
-          <Button/>
-        </Card>
+          <Button label="Flash"/>
+        </ContentCard>
       </div>
     </MuiThemeProvider>
   }
