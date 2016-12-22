@@ -13,29 +13,19 @@ export default class OSSelectField extends React.Component {
       value: null
     }
 
-    console.log(this.state)
-    console.log(this);;
+    this._handleChange = this._handleChange.bind(this)
   }
 
 _handleChange(event, index, value) {
-  console.log("sadsa")
-  console.log(index)
-  console.log(value)
-  console.log(this.state)
-
-  console.log(this)
-
-  // no access - 'this'?
-
-  this.state.value = value
+  this.setState({
+    value: value
+  })
 }
-
-handleChange = (event, index, value) => this.state.value = value; // this.setState({value});
 
   render() {
     return <SelectField className={styles.ukOSSelectField}
                         floatingLabelText="Operating system"
-                        onChange={this.handleChange}
+                        onChange={this._handleChange}
                         value={this.state.value}
                         disabled={false}>
                         <MenuItem value={0} primaryText="Hypriot"/>
