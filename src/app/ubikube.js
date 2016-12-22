@@ -13,38 +13,61 @@ import {fjTheme} from './fjtheme';
 import styles from './main.scss';
 
 export default class Ubikube extends React.Component {
+  constructor(props) {
+    super(props);
+    this._switchAdvancedSectionVisiblity = this._switchAdvancedSectionVisiblity.bind(this)
+    this.state = {showAdvanced: false};
+  }
+
+  _switchAdvancedSectionVisiblity() {
+    this.setState({showAdvanced: !this.state.showAdvanced});
+  }
+
   render() {
+    const showAdvanced = this.state.showAdvanced;
+    let advancedSection;
+
+    if (showAdvanced) {
+      advancedSection = <Paper zDepth={0}>
+        <h3 style={{paddingLeft: '16px'}}>Wireless network setup</h3>
+        <div>
+          <TextField className={styles.ukTextField} hintText="SSID"/>
+          <Tip text="Name of the wireless network."/>
+        </div>
+        <div>
+          <TextField className={styles.ukTextField} hintText="Password"/>
+          <Tip text="Password of the wireless network."/>
+        </div>
+      </Paper>
+    }
+
     return <MuiThemeProvider muiTheme={fjTheme}>
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
+          <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
           <div>
-            <TextField className={styles.ukTextField} hintText="Memory card" underlineShow={true}/>
+            <TextField className={styles.ukTextField} hintText="Memory card"/>
             <Tip text="Memory card to be flashed."/>
           </div>
           <div>
-            <TextField className={styles.ukTextField} hintText="Operating system" underlineShow={true}/>
+            <TextField className={styles.ukTextField} hintText="Operating system"/>
             <Tip text="Operating system to be flashed on memory card."/>
           </div>
           <div>
-            <TextField className={styles.ukTextField} hintText="Token" underlineShow={true}/>
+            <TextField className={styles.ukTextField} hintText="Token"/>
             <Tip text="Cluster's API server token."/>
           </div>
           <div>
-            <TextField className={styles.ukTextField} hintText="Hostname" underlineShow={true}/>
+            <TextField className={styles.ukTextField} hintText="Hostname"/>
             <Tip text="Hostname of the device which will use flashed memory card."/>
           </div>
-          <FlatButton label="Advanced" style={{alignSelf: 'flex-start', marginTop: '16px', marginBottom: '16px'}}/>
-          <Paper zDepth={0} children={this.props.children}>
-            <div>
-              <TextField className={styles.ukTextField} hintText="Username" underlineShow={true}/>
-              <Tip text="Name of the user to authenticate."/>
-            </div>
-            <div>
-              <TextField className={styles.ukTextField} hintText="Password" underlineShow={true}/>
-              <Tip text="Password of the user to authenticate."/>
-            </div>
-          </Paper>
+
+
+
+          {advancedSection}
+          <FlatButton label="Advanced" className={styles.ukAdvancedButton}
+                      onClick={this._switchAdvancedSectionVisiblity}/>
 
           <FlashButton label="Flash"/>
         </Paper>
