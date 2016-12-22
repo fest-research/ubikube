@@ -1,3 +1,7 @@
 .ukToolbar {
   flex: 0 1 auto;
+
+  // Make our app draggable but only on toolbar
+  -ms-overflow-style: scrollbar;
+  -webkit-app-region:drag;
 }

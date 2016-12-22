@@ -6,8 +6,10 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    minWidth: 1181,
+    minHeight: 800,
+    maxWidth: 1181,
+    maxHeight: 800,
     frame: false,
     // For MacOS
     titleBarStyle: 'hidden'
