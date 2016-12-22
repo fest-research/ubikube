@@ -8,6 +8,7 @@ export const fjTheme = getMuiTheme({
   },
   palette: {
     primary1Color: red600,
+    accent1Color: red600,
     textColor: red600,
   }
 });

@@ -5,7 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import Ubikube from './ubikube';
 
-// Fixes common issues with onTouchTap: https://github.com/callemall/material-ui/issues/4670
+// Fixes https://github.com/callemall/material-ui/issues/4670
 injectTapEventPlugin();
 
 const root = document.getElementById('root');

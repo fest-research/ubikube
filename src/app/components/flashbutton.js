@@ -7,6 +7,7 @@ export default class FlashButton extends React.Component {
   render() {
     return <RaisedButton className={styles.ukFlashButton}
                          label={this.props.label}
+                         secondary={true}
                          onClick={this.handleClick} />
   }
 
