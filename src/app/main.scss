@@ -5,6 +5,10 @@ html, body {
 body {
   margin: 0;
   height: 100%;
+
+  // Make our app draggable
+  -ms-overflow-style: scrollbar;
+  -webkit-app-region:drag;
 }
 
 .ukRoot {

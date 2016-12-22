@@ -5,7 +5,13 @@ import {BrowserWindow, app} from 'electron';
 let win;
 
 const createWindow = () => {
-  win = new BrowserWindow({width: 800, height: 600});
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    frame: false,
+    // For MacOS
+    titleBarStyle: 'hidden'
+  });
 
   if (process.env.NODE_ENV === 'production') {
     win.loadURL(url.format({
