@@ -9,10 +9,12 @@ import Ubikube from './ubikube';
 injectTapEventPlugin();
 
 const root = document.getElementById('root');
+root.style.height = '100%';
+
 const render = () => {
   ReactDOM.render(
     <AppContainer>
-      <Ubikube />
+      <Ubikube style={{height: '100%'}}/>
     </AppContainer>,
     root,
   );

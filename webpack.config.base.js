@@ -30,11 +30,25 @@ export default {
         include: path.join(__dirname, 'src'),
         loader: getBabelLoader()
       },
+
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
-        include: path.join(__dirname, 'src')
+        loader: 'style-loader'
+      }, {
+        test: /\.scss$/,
+        loader: 'css-loader',
+        query: {
+          modules: true,
+          localIdentName: '[name]__[local]___[hash:base64:5]'
+        }
       },
+
+      {
+        test: /\.scss$/,
+        loader: 'sass-loader',
+        include: path.join(__dirname, 'src'),
+      },
+
       ...(process.env.NODE_ENV === 'production' ?
       {
         test: /\.scss$/,
