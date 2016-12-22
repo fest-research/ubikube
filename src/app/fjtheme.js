@@ -1,15 +1,22 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {red600} from 'material-ui/styles/colors';
+import {white} from 'material-ui/styles/colors';
+import {redA100} from 'material-ui/styles/colors';
+
+const fujitsuRed = '#910000';
 
 export const fjTheme = getMuiTheme({
   appBar: {
-    height: 50,
-    color: 'white',
+    color: white,
+    height: 64,
+    textColor: fujitsuRed,
   },
   palette: {
-    primary1Color: red600,
-    accent1Color: red600,
-    textColor: red600,
-    backgroundColor: red600
+    accent1Color: white,
+    canvasColor: fujitsuRed,
+    disabledColor: redA100,
+    textColor: white,
+  },
+  raisedButton: {
+    secondaryTextColor: fujitsuRed,
   }
 });

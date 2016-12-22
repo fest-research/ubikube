@@ -11,6 +11,7 @@ const createWindow = () => {
     maxWidth: 1181,
     maxHeight: 800,
     frame: false,
+    show: false,
     // For MacOS
     titleBarStyle: 'hidden'
   });
@@ -29,6 +30,10 @@ const createWindow = () => {
 
   win.on('closed', () => {
     win = null;
+  });
+
+  win.on('ready-to-show', () => {
+    win.show()
   });
 };
 
