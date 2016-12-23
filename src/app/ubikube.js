@@ -27,6 +27,10 @@ export default class Ubikube extends React.Component {
     });
   }
 
+  _handleSubmit() {
+    alert("Submit!")
+  }
+
   render() {
     const showAdvanced = this.state.showAdvanced;
     let advancedSection;
@@ -44,21 +48,24 @@ export default class Ubikube extends React.Component {
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
-          <div style={{display: 'flex'}}>
-            <SDSelectField/>
-            <Tip text="Memory card to be flashed."/>
-          </div>
-          <div style={{display: 'flex'}}>
-            <OSSelectField/>
-            <Tip text="Operating system to be flashed on memory card."/>
-          </div>
-          <InputField hintText="Token" tipText="Cluster's API server token."/>
-          <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
-          {advancedSection}
-          <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
-                      hoverColor="white" rippleColor="white"
-                      onClick={this._switchAdvancedSectionVisiblity}/>
-          <FlashButton label="Flash"/>
+          <form onSubmit={this._handleSubmit}>
+            <div style={{display: 'flex'}}>
+              <SDSelectField/>
+              <Tip text="Memory card to be flashed."/>
+            </div>
+            <div style={{display: 'flex'}}>
+              <OSSelectField/>
+              <Tip text="Operating system to be flashed on memory card."/>
+            </div>
+            <InputField hintText="Token" tipText="Cluster's API server token."/>
+            <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
+            {advancedSection}
+            <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
+                        hoverColor="white" rippleColor="white"
+                        onClick={this._switchAdvancedSectionVisiblity}/>
+            <FlashButton label="Flash"/>
+
+          </form>
         </Paper>
       </div>
     </MuiThemeProvider>
