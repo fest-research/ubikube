@@ -6,21 +6,21 @@ import styles from './osselectfield.scss';
 
 export default class OSSelectField extends React.Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
 
     this.state = {
       value: null
-    }
+    };
 
     this._handleChange = this._handleChange.bind(this)
   }
 
-_handleChange(event, index, value) {
-  this.setState({
-    value: value
-  })
-}
+  _handleChange(event, index, value) {
+    this.setState({
+      value: value
+    })
+  }
 
   render() {
     return <SelectField className={styles.ukOSSelectField}
@@ -28,9 +28,9 @@ _handleChange(event, index, value) {
                         onChange={this._handleChange}
                         value={this.state.value}
                         disabled={false}>
-                        <MenuItem value={0} primaryText="Hypriot"/>
-                          <MenuItem value={1} primaryText="Raspbian"/>
+      <MenuItem value={0} primaryText="Hypriot"/>
+      <MenuItem value={1} primaryText="Raspbian"/>
 
-          </SelectField>
+    </SelectField>
   }
 }
