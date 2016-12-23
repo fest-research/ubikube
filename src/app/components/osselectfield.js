@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-
+import Tip from './tip'
 import styles from './osselectfield.scss';
 
 export default class OSSelectField extends React.Component {
@@ -23,14 +23,16 @@ export default class OSSelectField extends React.Component {
   }
 
   render() {
-    return <SelectField className={styles.ukOSSelectField}
+    return <div style={{display: 'flex'}}>
+    <SelectField className={styles.ukOSSelectField}
                         floatingLabelText="Operating system"
                         onChange={this._handleChange}
                         value={this.state.value}
                         disabled={false}>
       <MenuItem value={0} primaryText="Hypriot"/>
       <MenuItem value={1} primaryText="Raspbian"/>
-
     </SelectField>
+    <Tip text="Operating system to be flashed on memory card."/>
+    </div>
   }
 }
