@@ -8,6 +8,7 @@ import FlashButton from './components/flashbutton';
 import Toolbar from './components/toolbar';
 import Tip from './components/tip'
 import OSSelectField from './components/osselectfield'
+import SDSelectField from './components/sdselectfield'
 
 import {fjTheme} from './fjtheme';
 import styles from './main.scss';
@@ -50,7 +51,7 @@ export default class Ubikube extends React.Component {
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
           <div style={{display: 'flex'}}>
-            <TextField className={styles.ukTextField} hintText="Memory card"/>
+            <SDSelectField/>
             <Tip text="Memory card to be flashed."/>
           </div>
           <div style={{display: 'flex'}}>
