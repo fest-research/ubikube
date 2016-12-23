@@ -1,4 +1,6 @@
+@import "../variables";
+
 .ukFlashButton {
-  margin: 16px;
-  align-self: flex-end;
+  align-self: flex-start;
+  margin: (2 * $baseline-grid) 0;
 }

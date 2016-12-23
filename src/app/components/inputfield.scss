@@ -1,5 +1,6 @@
+@import "../variables";
+
 .ukTextField {
-  margin-left: 16px;
   flex: 0 1 auto;
   align-self: center;
 }
@@ -9,7 +10,7 @@
 }
 
 .ukTip {
-  margin-left: 48px;
+  margin-left: 6 * $baseline-grid;
   flex: 1 1 auto;
   align-self: center;
 }

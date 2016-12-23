@@ -10,7 +10,7 @@ import Selector from './components/selector'
 import InputField from './components/inputfield';
 
 import {fjTheme} from './fjtheme';
-import styles from './main.scss';
+import styles from './ubikube.scss';
 
 export default class Ubikube extends React.Component {
   constructor(props) {
@@ -26,7 +26,8 @@ export default class Ubikube extends React.Component {
     });
   }
 
-  _handleSubmit() {
+  _handleSubmit(e) {
+    e.preventDefault();
     alert("Submit!")
   }
 
@@ -40,7 +41,7 @@ export default class Ubikube extends React.Component {
 
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
-        <h3 style={{paddingLeft: '16px'}}>Wireless network setup</h3>
+        <h3>Wireless network setup</h3>
         <InputField hintText="SSID" tipText="Name of the wireless network."/>
         <InputField hintText="Password" tipText="Password of the wireless network."/>
       </Paper>
@@ -51,7 +52,7 @@ export default class Ubikube extends React.Component {
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
-          <form onSubmit={this._handleSubmit}>
+          <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>>
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
                              items={this._getAvailableSystems()}/>
@@ -59,7 +60,8 @@ export default class Ubikube extends React.Component {
                            tipText="Operating system to be flashed on memory card."
                            items={this._getAvailableSystems()}/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
-            <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
+            <InputField hintText="Hostname"
+                        tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
             <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                         hoverColor="white" rippleColor="white"
