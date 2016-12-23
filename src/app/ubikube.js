@@ -16,11 +16,11 @@ import styles from './main.scss';
 export default class Ubikube extends React.Component {
   constructor(props) {
     super(props);
-    this._switchAdvancedSectionVisiblity = this._switchAdvancedSectionVisiblity.bind(this)
+    this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
     this.state = {showAdvanced: false, advancedLabel: 'Show more options'};
   }
 
-  _switchAdvancedSectionVisiblity() {
+  _switchAdvancedSectionVisibility() {
     this.setState({
       showAdvanced: !this.state.showAdvanced,
       advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options',
@@ -56,9 +56,8 @@ export default class Ubikube extends React.Component {
             {advancedSection}
             <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                         hoverColor="white" rippleColor="white"
-                        onClick={this._switchAdvancedSectionVisiblity}/>
+                        onClick={this._switchAdvancedSectionVisibility}/>
             <FlashButton label="Flash"/>
-
           </form>
         </Paper>
       </div>
