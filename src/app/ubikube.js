@@ -33,11 +33,11 @@ export default class Ubikube extends React.Component {
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
         <h3 style={{paddingLeft: '16px'}}>Wireless network setup</h3>
-        <div>
+        <div style={{display: 'flex'}}>
           <TextField className={styles.ukTextField} hintText="SSID"/>
           <Tip text="Name of the wireless network."/>
         </div>
-        <div>
+        <div style={{display: 'flex'}}>
           <TextField className={styles.ukTextField} hintText="Password"/>
           <Tip text="Password of the wireless network."/>
         </div>
@@ -49,19 +49,19 @@ export default class Ubikube extends React.Component {
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
-          <div>
+          <div style={{display: 'flex'}}>
             <TextField className={styles.ukTextField} hintText="Memory card"/>
             <Tip text="Memory card to be flashed."/>
           </div>
-          <div>
+          <div style={{display: 'flex'}}>
             <OSSelectField/>
             <Tip text="Operating system to be flashed on memory card."/>
           </div>
-          <div>
+          <div style={{display: 'flex'}}>
             <TextField className={styles.ukTextField} hintText="Token"/>
             <Tip text="Cluster's API server token."/>
           </div>
-          <div>
+          <div style={{display: 'flex'}}>
             <TextField className={styles.ukTextField} hintText="Hostname"/>
             <Tip text="Hostname of the device which will use flashed memory card."/>
           </div>

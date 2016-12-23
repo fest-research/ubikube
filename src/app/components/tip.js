@@ -8,6 +8,6 @@ export default class Tip extends React.Component {
   }
 
   render() {
-    return <span className={styles.ukTip}>{this.props.text}</span>
+    return <div className={styles.ukTip}>{this.props.text}</div>
   }
 }
