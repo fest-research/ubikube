@@ -2,11 +2,13 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import Selector from './components/selector/selector'
 
+import Selector from './components/selector/selector'
 import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar/toolbar';
 import InputField from './components/inputfield/inputfield';
+
+import {list} from './scripts/driverlist';
 
 import {theme} from './themes/fjtheme';
 import styles from './ubikube.scss';
@@ -31,6 +33,15 @@ export default class Ubikube extends React.Component {
   }
 
   _getAvailableSystems() {
+    list((error, drives) => {
+      if (error) {
+        throw error;
+      }
+
+      drives.map((drive) => {
+        console.log(drive.device)
+      });
+    });
     return ["Raspbian", "Hypriot"];
   }
 
