@@ -10,10 +10,11 @@ npm install
 
 ### Build
 ```
-npm build
+npm run build
 ```
 
 ### Usage
 ```
+# Starts dev environment
 npm start
 ```
