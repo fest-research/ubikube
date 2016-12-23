@@ -7,7 +7,7 @@ import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar';
 import Tip from './components/tip'
 import Selector from './components/selector'
-import InputField from './components/inputfield';
+import InputField from './components/inputfield/inputfield';
 
 import {fjTheme} from './fjtheme';
 import styles from './ubikube.scss';
