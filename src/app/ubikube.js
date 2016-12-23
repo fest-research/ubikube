@@ -50,7 +50,8 @@ export default class Ubikube extends React.Component {
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
           <form onSubmit={this._handleSubmit}>
             <SDSelectField tipText="Memory card to be flashed."/>
-            <OSSelectField tipText="Operating system to be flashed on memory card."/>
+            <OSSelectField label="Operating system"
+                           tipText="Operating system to be flashed on memory card."/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
             <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}

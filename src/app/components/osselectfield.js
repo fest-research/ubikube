@@ -25,7 +25,7 @@ export default class OSSelectField extends React.Component {
   render() {
     return <div style={{display: 'flex'}}>
     <SelectField className={styles.ukOSSelectField}
-                        floatingLabelText="Operating system"
+                        floatingLabelText={this.props.label}
                         onChange={this._handleChange}
                         value={this.state.value}
                         disabled={false}>
