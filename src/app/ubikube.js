@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 
-import FlashButton from './components/flashbutton';
+import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar';
 import Tip from './components/tip'
 import Selector from './components/selector'
@@ -52,7 +52,7 @@ export default class Ubikube extends React.Component {
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
-          <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>>
+          <form onSubmit={this._handleSubmit}>
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
                              items={this._getAvailableSystems()}/>
@@ -66,7 +66,7 @@ export default class Ubikube extends React.Component {
             <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                         hoverColor="white" rippleColor="white"
                         onClick={this._switchAdvancedSectionVisibility}/>
-            <FlashButton label="Flash"/>
+                      <SubmitButton label="Flash"/>
           </form>
         </Paper>
       </div>
