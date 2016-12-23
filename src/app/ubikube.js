@@ -55,11 +55,9 @@ export default class Ubikube extends React.Component {
           <InputField hintText="Token" tipText="Cluster's API server token."/>
           <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
           {advancedSection}
-
           <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                       hoverColor="white" rippleColor="white"
                       onClick={this._switchAdvancedSectionVisiblity}/>
-
           <FlashButton label="Flash"/>
         </Paper>
       </div>
