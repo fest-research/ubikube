@@ -17,7 +17,22 @@ export default class Ubikube extends React.Component {
   constructor(props) {
     super(props);
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
-    this.state = {showAdvanced: false, advancedLabel: 'Show more options'};
+    this.state = {
+      showAdvanced: false,
+      advancedLabel: 'Show more options',
+      drives: []
+    };
+
+    // Load list of available drives
+    list((error, drives) => {
+      if (error) {
+        throw error;
+      }
+      drives.map((drive) => {
+        this.state.drives.push(drive.device)
+      });
+      this.setState(this.state)
+    });
   }
 
   _switchAdvancedSectionVisibility() {
@@ -33,20 +48,7 @@ export default class Ubikube extends React.Component {
   }
 
   _getAvailableSystems() {
-    list((error, drives) => {
-      if (error) {
-        throw error;
-      }
-
-      drives.map((drive) => {
-        console.log(drive.device)
-      });
-    });
     return ["Raspbian", "Hypriot"];
-  }
-
-  _getAvailableCards() {
-    return ["/dev/usb1", "/dev/usb2"];
   }
 
   render() {
@@ -69,7 +71,7 @@ export default class Ubikube extends React.Component {
           <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
-                             items={this._getAvailableCards()}/>
+                             items={this.state.drives}/>
             <Selector label="Operating system"
                            tipText="Operating system to be flashed on memory card."
                            items={this._getAvailableSystems()}/>
