@@ -1,11 +1,11 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import SubmitButton from './components/submitbutton/submitbutton';
-import Toolbar from './components/toolbar';
-import Selector from './components/selector'
+import Toolbar from './components/toolbar/toolbar';
+import Selector from './components/selector/selector'
 import InputField from './components/inputfield/inputfield';
 
 import {fjTheme} from './fjtheme';
@@ -62,10 +62,11 @@ export default class Ubikube extends React.Component {
             <InputField hintText="Hostname"
                         tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
-            <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
-                        hoverColor="white" rippleColor="white"
-                        onClick={this._switchAdvancedSectionVisibility}/>
-                      <SubmitButton label="Flash"/>
+            <br/>
+            <RaisedButton label={this.state.advancedLabel}
+                          onClick={this._switchAdvancedSectionVisibility}/>
+            <br/>
+            <SubmitButton label="Flash"/>
           </form>
         </Paper>
       </div>

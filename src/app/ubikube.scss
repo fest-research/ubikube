@@ -23,16 +23,6 @@ html, body {
   flex: 0 1 auto;
 }
 
-.ukAdvancedButton {
-  align-self: flex-start;
-  min-width: 40px !important;
-  overflow: visible !important;
-
-  span {
-    padding-left: 0 !important;
-  }
-}
-
 .ukFlexContainer {
   display: flex;
   flex-direction: column;

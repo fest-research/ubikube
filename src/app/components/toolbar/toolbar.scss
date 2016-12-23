@@ -1,4 +1,4 @@
-@import '../variables';
+@import '../../variables';
 
 .ukToolbarColor {
   color: white !important;
@@ -7,9 +7,9 @@
 .ukToolbar {
   flex: 0 1 auto;
   height: $toolbar-height-size-base !important;
-
-  // Make our app draggable but only on toolbar
   -ms-overflow-style: scrollbar;
+
+  // App can be dragged by toolbar
   -webkit-app-region: drag;
 }
 
