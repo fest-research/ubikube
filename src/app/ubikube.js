@@ -2,12 +2,10 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar/toolbar';
 import Selector from './components/selector/selector'
 import InputField from './components/inputfield/inputfield';
-
 import {fjTheme} from './fjtheme';
 import styles from './ubikube.scss';
 
@@ -34,6 +32,10 @@ export default class Ubikube extends React.Component {
     return ["Raspbian", "Hypriot"];
   }
 
+  _getAvailableCards() {
+    return ["/dev/usb1", "/dev/usb2"];
+  }
+
   render() {
     const showAdvanced = this.state.showAdvanced;
     let advancedSection;
@@ -54,7 +56,7 @@ export default class Ubikube extends React.Component {
           <form onSubmit={this._handleSubmit}>
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
-                             items={this._getAvailableSystems()}/>
+                             items={this._getAvailableCards()}/>
             <Selector label="Operating system"
                            tipText="Operating system to be flashed on memory card."
                            items={this._getAvailableSystems()}/>
