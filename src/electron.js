@@ -6,10 +6,9 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    minWidth: 1181,
-    minHeight: 800,
-    maxWidth: 1181,
-    maxHeight: 800,
+    width: 1181,
+    height: 800,
+    resizable: false,
     frame: false,
     show: false,
     titleBarStyle: 'hidden'

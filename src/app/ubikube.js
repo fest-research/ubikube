@@ -1,6 +1,5 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -9,6 +8,7 @@ import Toolbar from './components/toolbar';
 import Tip from './components/tip'
 import OSSelectField from './components/osselectfield'
 import SDSelectField from './components/sdselectfield'
+import InputField from './components/inputfield';
 
 import {fjTheme} from './fjtheme';
 import styles from './main.scss';
@@ -34,14 +34,8 @@ export default class Ubikube extends React.Component {
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
         <h3 style={{paddingLeft: '16px'}}>Wireless network setup</h3>
-        <div style={{display: 'flex'}}>
-          <TextField className={styles.ukTextField} hintText="SSID"/>
-          <Tip text="Name of the wireless network."/>
-        </div>
-        <div style={{display: 'flex'}}>
-          <TextField className={styles.ukTextField} hintText="Password"/>
-          <Tip text="Password of the wireless network."/>
-        </div>
+        <InputField hintText="SSID" tipText="Name of the wireless network."/>
+        <InputField hintText="Password" tipText="Password of the wireless network."/>
       </Paper>
     }
 
@@ -58,16 +52,10 @@ export default class Ubikube extends React.Component {
             <OSSelectField/>
             <Tip text="Operating system to be flashed on memory card."/>
           </div>
-          <div style={{display: 'flex'}}>
-            <TextField className={styles.ukTextField} hintText="Token"/>
-            <Tip text="Cluster's API server token."/>
-          </div>
-          <div style={{display: 'flex'}}>
-            <TextField className={styles.ukTextField} hintText="Hostname"/>
-            <Tip text="Hostname of the device which will use flashed memory card."/>
-          </div>
-
+          <InputField hintText="Token" tipText="Cluster's API server token."/>
+          <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
           {advancedSection}
+
           <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                       hoverColor="white" rippleColor="white"
                       onClick={this._switchAdvancedSectionVisiblity}/>
