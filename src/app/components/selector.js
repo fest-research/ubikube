@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Tip from './tip'
+import Tip from './tip/tip'
 import styles from './selector.scss';
 
 export default class Selector extends React.Component {
