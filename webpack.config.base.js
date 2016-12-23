@@ -23,11 +23,15 @@ export default {
     filename: '[name].js',
     publicPath: '/'
   },
+
   module: {
-    rules: [
+    loaders: [
       {
         test: /\.jsx?$/,
-        include: path.join(__dirname, 'src'),
+        include: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules/drivelist'),
+        ],
         loader: getBabelLoader()
       },
 
@@ -55,5 +59,5 @@ export default {
         loader: ExtractTextPlugin.extract('css-loader!sass-loader')
       } : {})
     ]
-  }
+  },
 };

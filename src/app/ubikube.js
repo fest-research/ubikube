@@ -2,11 +2,13 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import Selector from './components/selector/selector'
+
 import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar/toolbar';
-import Selector from './components/selector/selector'
 import InputField from './components/inputfield/inputfield';
-import {fjTheme} from './fjtheme';
+
+import {theme} from './themes/fjtheme';
 import styles from './ubikube.scss';
 
 export default class Ubikube extends React.Component {
@@ -48,12 +50,12 @@ export default class Ubikube extends React.Component {
       </Paper>
     }
 
-    return <MuiThemeProvider muiTheme={fjTheme}>
+    return <MuiThemeProvider muiTheme={theme}>
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
-          <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
-          <form onSubmit={this._handleSubmit}>
+          <h1>Image setup</h1>
+          <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
                              items={this._getAvailableCards()}/>
@@ -64,10 +66,9 @@ export default class Ubikube extends React.Component {
             <InputField hintText="Hostname"
                         tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
-            <br/>
             <RaisedButton label={this.state.advancedLabel}
-                          onClick={this._switchAdvancedSectionVisibility}/>
-            <br/>
+                          onClick={this._switchAdvancedSectionVisibility}
+                          className={styles.ukAdvancedButton}/>
             <SubmitButton label="Flash"/>
           </form>
         </Paper>

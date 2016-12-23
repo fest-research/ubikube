@@ -4,18 +4,18 @@ import {grey500} from 'material-ui/styles/colors';
 
 const fujitsuRed = '#C80000';
 
-export const fjTheme = getMuiTheme({
+export const theme = getMuiTheme({
   toolbar: {
-    backgroundColor: fujitsuRed,
+    backgroundColor: fujitsuRed
   },
   palette: {
     accent1Color: fujitsuRed,
-    primary1Color: fujitsuRed,
     canvasColor: white,
     disabledColor: grey500,
-    textColor: fujitsuRed,
+    primary1Color: fujitsuRed,
+    textColor: fujitsuRed
   },
   raisedButton: {
-    secondaryTextColor: white,
+    secondaryTextColor: white
   }
 });

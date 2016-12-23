@@ -2,6 +2,7 @@
 public/*.js
 public/*.jpg
 public/*.css
+public/scripts
 
 # IDE files
 .idea
