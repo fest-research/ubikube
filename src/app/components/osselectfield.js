@@ -32,7 +32,7 @@ export default class OSSelectField extends React.Component {
       <MenuItem value={0} primaryText="Hypriot"/>
       <MenuItem value={1} primaryText="Raspbian"/>
     </SelectField>
-    <Tip text="Operating system to be flashed on memory card."/>
+    <Tip text={this.props.tipText}/>
     </div>
   }
 }

@@ -17,13 +17,13 @@ export default class Ubikube extends React.Component {
   constructor(props) {
     super(props);
     this._switchAdvancedSectionVisiblity = this._switchAdvancedSectionVisiblity.bind(this)
-    this.state = {showAdvanced: false, advancedLabel: 'More'};
+    this.state = {showAdvanced: false, advancedLabel: 'Show more options'};
   }
 
   _switchAdvancedSectionVisiblity() {
     this.setState({
       showAdvanced: !this.state.showAdvanced,
-      advancedLabel: this.state.advancedLabel === 'More' ? 'Less' : 'More',
+      advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options',
     });
   }
 
@@ -49,8 +49,8 @@ export default class Ubikube extends React.Component {
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
           <form onSubmit={this._handleSubmit}>
-            <SDSelectField/>
-            <OSSelectField/>
+            <SDSelectField tipText="Memory card to be flashed."/>
+            <OSSelectField tipText="Operating system to be flashed on memory card."/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
             <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}

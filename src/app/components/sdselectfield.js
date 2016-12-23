@@ -32,7 +32,7 @@ _handleChange(event, index, value) {
                           <MenuItem value={0} primaryText="/dev/usb1"/>
                           <MenuItem value={1} primaryText="/dev/usb2"/>
             </SelectField>
-      <Tip text="Memory card to be flashed."/>
+      <Tip text={this.props.tipText}/>
     </div>
 
   }
