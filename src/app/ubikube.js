@@ -6,8 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import FlashButton from './components/flashbutton';
 import Toolbar from './components/toolbar';
 import Tip from './components/tip'
-import OSSelectField from './components/osselectfield'
-import SDSelectField from './components/sdselectfield'
+import Selector from './components/selector'
 import InputField from './components/inputfield';
 
 import {fjTheme} from './fjtheme';
@@ -31,6 +30,10 @@ export default class Ubikube extends React.Component {
     alert("Submit!")
   }
 
+  _getAvailableSystems() {
+    return ["Raspbian", "Hypriot"];
+  }
+
   render() {
     const showAdvanced = this.state.showAdvanced;
     let advancedSection;
@@ -49,9 +52,12 @@ export default class Ubikube extends React.Component {
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
           <form onSubmit={this._handleSubmit}>
-            <SDSelectField tipText="Memory card to be flashed."/>
-            <OSSelectField label="Operating system"
-                           tipText="Operating system to be flashed on memory card."/>
+            <Selector label="Memory card"
+                             tipText="Memory card to be flashed."
+                             items={this._getAvailableSystems()}/>
+            <Selector label="Operating system"
+                           tipText="Operating system to be flashed on memory card."
+                           items={this._getAvailableSystems()}/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
             <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
