@@ -7,8 +7,6 @@ const fujitsuRed = '#C80000';
 export const fjTheme = getMuiTheme({
   toolbar: {
     backgroundColor: fujitsuRed,
-    height: 64,
-    titleFontSize: 24,
   },
   palette: {
     accent1Color: fujitsuRed,

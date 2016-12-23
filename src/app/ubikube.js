@@ -5,13 +5,12 @@ import FlatButton from 'material-ui/FlatButton';
 
 import FlashButton from './components/flashbutton';
 import Toolbar from './components/toolbar';
-import Tip from './components/tip'
 import OSSelectField from './components/osselectfield'
 import SDSelectField from './components/sdselectfield'
 import InputField from './components/inputfield';
 
 import {fjTheme} from './fjtheme';
-import styles from './main.scss';
+import styles from './ubikube.scss';
 
 export default class Ubikube extends React.Component {
   constructor(props) {
@@ -37,7 +36,7 @@ export default class Ubikube extends React.Component {
 
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
-        <h3 style={{paddingLeft: '16px'}}>Wireless network setup</h3>
+        <h3>Wireless network setup</h3>
         <InputField hintText="SSID" tipText="Name of the wireless network."/>
         <InputField hintText="Password" tipText="Password of the wireless network."/>
       </Paper>
@@ -47,13 +46,14 @@ export default class Ubikube extends React.Component {
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
-          <h1 style={{paddingLeft: '16px'}}>Image setup</h1>
+          <h1>Image setup</h1>
           <form onSubmit={this._handleSubmit}>
             <SDSelectField tipText="Memory card to be flashed."/>
             <OSSelectField label="Operating system"
                            tipText="Operating system to be flashed on memory card."/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
-            <InputField hintText="Hostname" tipText="Hostname of the device which will use flashed memory card."/>
+            <InputField hintText="Hostname" 
+                        tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
             <FlatButton label={this.state.advancedLabel} className={styles.ukAdvancedButton}
                         hoverColor="white" rippleColor="white"

@@ -1,3 +1,5 @@
+@import 'variables';
+
 html, body {
   height: 100%;
   margin: 0;
@@ -14,11 +16,10 @@ html, body {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: (2 * $baseline-grid) (4 * $baseline-grid);
 }
 
 .ukTextField {
-  margin-left: 16px;
   flex: 0 1 auto;
 }
 
@@ -26,4 +27,8 @@ html, body {
   align-self: flex-start;
   min-width: 40px !important;
   overflow: visible !important;
+
+  span {
+    padding-left: 0 !important;
+  }
 }
