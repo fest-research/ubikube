@@ -26,7 +26,8 @@ export default class Ubikube extends React.Component {
     });
   }
 
-  _handleSubmit() {
+  _handleSubmit(e) {
+    e.preventDefault();
     alert("Submit!")
   }
 
@@ -47,7 +48,7 @@ export default class Ubikube extends React.Component {
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <h1>Image setup</h1>
-          <form onSubmit={this._handleSubmit}>
+          <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <SDSelectField tipText="Memory card to be flashed."/>
             <OSSelectField label="Operating system"
                            tipText="Operating system to be flashed on memory card."/>

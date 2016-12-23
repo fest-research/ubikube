@@ -32,3 +32,8 @@ html, body {
     padding-left: 0 !important;
   }
 }
+
+.ukFlexContainer {
+  display: flex;
+  flex-direction: column;
+}
