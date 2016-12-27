@@ -39,7 +39,11 @@ html, body {
 
 .ukAdvancedButton {
   align-self: flex-start;
-  margin-top: $baseline-grid;
+  margin: $baseline-grid 0 !important;
+
+  span {
+    padding-left: 0 !important;
+  }
 }
 
 .ukSubmitButton {
