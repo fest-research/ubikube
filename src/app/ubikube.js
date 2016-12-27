@@ -2,10 +2,11 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
 import Selector from './components/selector/selector'
 import Toolbar from './components/toolbar/toolbar';
-import InputField from './components/inputfield/inputfield';
+import Input from './components/input/input';
 
 import {listAvailableDrives} from './scripts/drivelist';
 
@@ -19,7 +20,6 @@ export default class Ubikube extends React.Component {
       showAdvanced: false,
       advancedLabel: 'Show more options',
       drives: [],
-
     };
 
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
@@ -36,11 +36,9 @@ export default class Ubikube extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault();
-
     console.log(this.hostnameField.getValue());
     console.log(this.tokenField.getValue());
     console.log(this.refs.memoryCardSelect.getValue());
-
     alert("Submit!")
   }
 
@@ -66,8 +64,8 @@ export default class Ubikube extends React.Component {
     if (showAdvanced) {
       advancedSection = <Paper className={styles.ukMoreOptionsCard} zDepth={0}>
         <h2>Wireless network</h2>
-        <InputField hintText="SSID" tipText="Name of the wireless network."/>
-        <InputField hintText="Password" tipText="Password of the wireless network."/>
+        <Input hintText="SSID" tipText="Name of the wireless network."/>
+        <Input hintText="Password" tipText="Password of the wireless network."/>
       </Paper>
     }
 
@@ -81,19 +79,17 @@ export default class Ubikube extends React.Component {
                       tipText="Memory card to be flashed."
                       ref="memoryCardSelect"
                       items={this.state.drives}/>
-            <InputField hintText="Token" inputRef={node => this.tokenField = node}
-                        tipText="Cluster's API server token."/>
-            <InputField hintText="Hostname" inputRef={node => this.hostnameField = node}
-                        tipText="Hostname of the device which will use flashed memory card."/>
+            <Input hintText="Token" inputRef={node => this.tokenField = node}
+                   tipText="Cluster's API server token."/>
+            <Input hintText="Hostname" inputRef={node => this.hostnameField = node}
+                   tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
-            <div className={styles.ukButtons}>
-              <RaisedButton label={this.state.advancedLabel}
-                            onClick={this._switchAdvancedSectionVisibility}
-                            className={styles.ukAdvancedButton}/>
-              <div className={styles.ukDivider}/>
-              <RaisedButton className={styles.ukSubmitButton} label="Flash"
-                            type="submit" secondary={true}/>
-            </div>
+            <FlatButton className={styles.ukShowAdvancedButton}
+                        label={this.state.advancedLabel}
+                        onClick={this._switchAdvancedSectionVisibility}
+                        className={styles.ukAdvancedButton}/>
+            <RaisedButton className={styles.ukSubmitButton} label="Flash"
+                          type="submit" secondary={true}/>
           </form>
         </Paper>
       </div>
