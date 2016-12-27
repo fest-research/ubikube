@@ -15,6 +15,10 @@ export default class Selector extends React.Component {
     this._handleChange = this._handleChange.bind(this)
   }
 
+  getValue() {
+    return this.state.value;
+  }
+
   _handleChange(event, index, value) {
     this.setState({
       value: value
@@ -23,11 +27,12 @@ export default class Selector extends React.Component {
 
   render() {
     // Render items, that can be selected
-    var items = []
-    var index = 0
+    var items = [];
+    var index = 0;
     if(this.props.items) {
       for (var item of this.props.items) {
-        items.push(<MenuItem key={index} value={index++} primaryText={item}/>)
+        items.push(<MenuItem key={index} value={item} primaryText={item}/>);
+        index++;
       }
     }
 

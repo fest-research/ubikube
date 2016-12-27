@@ -8,7 +8,8 @@ export default class InputField extends React.Component {
   render() {
     return <div className={styles.ukInputField}>
              <TextField className={styles.ukTextField}
-                        hintText={this.props.hintText}/>
+                        hintText={this.props.hintText}
+                        ref={this.props.inputRef}/>
              <Tip text={this.props.tipText}/>
            </div>
   }

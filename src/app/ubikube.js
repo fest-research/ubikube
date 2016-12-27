@@ -4,7 +4,6 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Selector from './components/selector/selector'
-import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar/toolbar';
 import InputField from './components/inputfield/inputfield';
 
@@ -16,13 +15,15 @@ import styles from './ubikube.scss';
 export default class Ubikube extends React.Component {
   constructor(props) {
     super(props);
-    this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
     this.state = {
       showAdvanced: false,
       advancedLabel: 'Show more options',
-      drives: []
+      drives: [],
+      
     };
 
+    this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
     this._initDrives();
   }
 
@@ -35,6 +36,11 @@ export default class Ubikube extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+
+    console.log(this.hostnameField.getValue());
+    console.log(this.tokenField.getValue());
+    console.log(this.refs.memoryCardSelect.getValue());
+
     alert("Submit!")
   }
 
@@ -72,16 +78,19 @@ export default class Ubikube extends React.Component {
           <h1>Image setup</h1>
           <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <Selector label="Memory card"
-                             tipText="Memory card to be flashed."
-                             items={this.state.drives}/>
-            <InputField hintText="Token" tipText="Cluster's API server token."/>
-            <InputField hintText="Hostname"
+                      tipText="Memory card to be flashed."
+                      ref="memoryCardSelect"
+                      items={this.state.drives}/>
+            <InputField hintText="Token" inputRef={node => this.tokenField = node}
+                        tipText="Cluster's API server token."/>
+            <InputField hintText="Hostname" inputRef={node => this.hostnameField = node}
                         tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
             <RaisedButton label={this.state.advancedLabel}
                           onClick={this._switchAdvancedSectionVisibility}
                           className={styles.ukAdvancedButton}/>
-            <SubmitButton label="Flash"/>
+            <RaisedButton className={styles.ukSubmitButton} label="Flash"
+                          type="submit" secondary={true}/>
           </form>
         </Paper>
       </div>
