@@ -87,7 +87,8 @@ export default class Ubikube extends React.Component {
             <FlatButton className={styles.ukShowAdvancedButton}
                         label={this.state.advancedLabel}
                         onClick={this._switchAdvancedSectionVisibility}
-                        className={styles.ukAdvancedButton}/>
+                        className={styles.ukAdvancedButton}
+                        rippleColor="white" hoverColor="white"/>
             <RaisedButton className={styles.ukSubmitButton} label="Flash"
                           type="submit" secondary={true}/>
           </form>
