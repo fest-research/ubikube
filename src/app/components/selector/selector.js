@@ -36,12 +36,13 @@ export default class Selector extends React.Component {
       }
     }
 
-    return <div style={{display: 'flex'}}>
+    return <div className={styles.ukSelectorContainer}>
              <SelectField className={styles.ukSelector}
                           floatingLabelText={this.props.label}
                           onChange={this._handleChange}
                           value={this.state.value}
-                          disabled={false}>
+                          disabled={false}
+                          fullWidth={true}>
                {items}
              </SelectField>
              <Tip text={this.props.tipText}/>
