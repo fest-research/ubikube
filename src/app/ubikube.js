@@ -19,7 +19,7 @@ export default class Ubikube extends React.Component {
       showAdvanced: false,
       advancedLabel: 'Show more options',
       drives: [],
-      
+
     };
 
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
@@ -64,8 +64,8 @@ export default class Ubikube extends React.Component {
     let advancedSection;
 
     if (showAdvanced) {
-      advancedSection = <Paper zDepth={0}>
-        <h3>Wireless network setup</h3>
+      advancedSection = <Paper className={styles.ukMoreOptionsCard} zDepth={0}>
+        <h2>Wireless network</h2>
         <InputField hintText="SSID" tipText="Name of the wireless network."/>
         <InputField hintText="Password" tipText="Password of the wireless network."/>
       </Paper>
@@ -75,7 +75,7 @@ export default class Ubikube extends React.Component {
       <div className={styles.ukRoot}>
         <Toolbar title="Ubikube"/>
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
-          <h1>Image setup</h1>
+          <h2 className={styles.ukCardHeader}>Setup</h2>
           <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <Selector label="Memory card"
                       tipText="Memory card to be flashed."
@@ -86,11 +86,14 @@ export default class Ubikube extends React.Component {
             <InputField hintText="Hostname" inputRef={node => this.hostnameField = node}
                         tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
-            <RaisedButton label={this.state.advancedLabel}
-                          onClick={this._switchAdvancedSectionVisibility}
-                          className={styles.ukAdvancedButton}/>
-            <RaisedButton className={styles.ukSubmitButton} label="Flash"
-                          type="submit" secondary={true}/>
+            <div className={styles.ukButtons}>
+              <RaisedButton label={this.state.advancedLabel}
+                            onClick={this._switchAdvancedSectionVisibility}
+                            className={styles.ukAdvancedButton}/>
+              <div className={styles.ukDivider}/>
+              <RaisedButton className={styles.ukSubmitButton} label="Flash"
+                            type="submit" secondary={true}/>
+            </div>
           </form>
         </Paper>
       </div>

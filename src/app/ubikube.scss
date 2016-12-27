@@ -16,7 +16,22 @@ html, body {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding: (2 * $baseline-grid) (4 * $baseline-grid);
+  padding-left: 4 * $baseline-grid;
+}
+
+.ukDivider{
+    width: $baseline-grid;
+    height: auto;
+    display: inline-block;
+}
+
+.ukButtons {
+  padding-top: $baseline-grid;
+}
+
+.ukCardHeader {
+  margin-bottom: 0;
+  margin-top: 3 * $baseline-grid;
 }
 
 .ukTextField {
