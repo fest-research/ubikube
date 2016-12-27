@@ -8,7 +8,7 @@ import SubmitButton from './components/submitbutton/submitbutton';
 import Toolbar from './components/toolbar/toolbar';
 import InputField from './components/inputfield/inputfield';
 
-import {list} from './scripts/driverlist';
+import {listAvailableDrives} from './scripts/drivelist';
 
 import {theme} from './themes/fjtheme';
 import styles from './ubikube.scss';
@@ -23,22 +23,13 @@ export default class Ubikube extends React.Component {
       drives: []
     };
 
-    // Load list of available drives
-    list((error, drives) => {
-      if (error) {
-        throw error;
-      }
-      drives.map((drive) => {
-        this.state.drives.push(drive.device)
-      });
-      this.setState(this.state)
-    });
+    this._initDrives();
   }
 
   _switchAdvancedSectionVisibility() {
     this.setState({
       showAdvanced: !this.state.showAdvanced,
-      advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options',
+      advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options'
     });
   }
 
@@ -47,8 +38,19 @@ export default class Ubikube extends React.Component {
     alert("Submit!")
   }
 
-  _getAvailableSystems() {
-    return ["Raspbian", "Hypriot"];
+  _initDrives() {
+    // Load listAvailableDrives of available drives
+    listAvailableDrives((error, drives) => {
+      if (error) {
+        throw error;
+      }
+
+      drives.map((drive) => {
+        this.state.drives.push(`${drive.device} (${drive.description})`);
+      });
+
+      this.setState(this.state)
+    });
   }
 
   render() {
@@ -72,9 +74,6 @@ export default class Ubikube extends React.Component {
             <Selector label="Memory card"
                              tipText="Memory card to be flashed."
                              items={this.state.drives}/>
-            <Selector label="Operating system"
-                           tipText="Operating system to be flashed on memory card."
-                           items={this._getAvailableSystems()}/>
             <InputField hintText="Token" tipText="Cluster's API server token."/>
             <InputField hintText="Hostname"
                         tipText="Hostname of the device which will use flashed memory card."/>

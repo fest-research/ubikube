@@ -60,7 +60,7 @@ const paths = {
  * @example
  * const drivelist = require('drivelist');
  *
- * drivelist.list((error, drives) => {
+ * drivelist.listAvailableDrives((error, drives) => {
  *   if (error) {
  *     throw error;
  *   }
@@ -70,7 +70,7 @@ const paths = {
  *   });
  * });
  */
-export function list(callback) {
+export function listAvailableDrives(callback) {
   const operatingSystem = os.platform();
   const script = paths[operatingSystem];
 
@@ -86,7 +86,7 @@ export function list(callback) {
 
     return callback(null, parse(output));
   });
-};
+}
 
 /**
  * @summary Run a platform script
@@ -198,4 +198,4 @@ function parse(input) {
 
     return result;
   }));
-};
+}
