@@ -36,10 +36,14 @@ export default class Ubikube extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault();
-    console.log(this.hostnameField.getValue());
-    console.log(this.tokenField.getValue());
-    console.log(this.refs.memoryCardSelect.getValue());
-    alert("Submit!")
+
+    let token = this.tokenField.getValue();
+    let hostname = this.hostnameField.getValue();
+    let memoryCard = this.refs.memoryCardSelect.getValue();
+
+    alert("Hostname: " + hostname +
+          "\nToken: " + token +
+          "\nMemory card: " + memoryCard)
   }
 
   _initDrives() {
