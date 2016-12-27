@@ -9,6 +9,7 @@ import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
 
 import {listAvailableDrives} from './scripts/drivelist';
+import {downloadRaspbianImage} from './scripts/downloader';
 
 import {theme} from './themes/fjtheme';
 import styles from './ubikube.scss';
@@ -40,6 +41,8 @@ export default class Ubikube extends React.Component {
     let token = this.tokenField.getValue();
     let hostname = this.hostnameField.getValue();
     let memoryCard = this.refs.memoryCardSelect.getValue();
+
+    downloadRaspbianImage()
 
     alert("Hostname: " + hostname +
           "\nToken: " + token +
