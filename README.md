@@ -15,6 +15,5 @@ npm run build
 
 ### Usage
 ```
-# Starts dev environment
 npm start
 ```

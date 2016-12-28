@@ -44,6 +44,7 @@
     "node-shell-parser": "^0.2.1",
     "npm-run-all": "^3.1.2",
     "react-hot-loader": "^3.0.0-beta",
+    "request-progress": "^3.0.0",
     "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta",
