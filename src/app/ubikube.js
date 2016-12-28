@@ -53,6 +53,7 @@ export default class Ubikube extends React.Component {
     let image = "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z"
     let filename = "raspbian-lite-pibakery.7z"
 
+    // TODO dont download if already downloaded, verify md5
     progress(request(image))
      .on('progress', state => {
        this.state.completed = state.percent * 100
@@ -136,9 +137,10 @@ export default class Ubikube extends React.Component {
                         rippleColor="white" hoverColor="white"/>
             <RaisedButton className={styles.ukSubmitButton} label="Flash"
                           type="submit" secondary={true}/>
-            <LinearProgress mode="determinate"
-                            value={this.state.completed}/>
           </form>
+          <h2>Status</h2>
+          <LinearProgress mode="determinate"
+                          value={this.state.completed}/>
         </Paper>
       </div>
     </MuiThemeProvider>
