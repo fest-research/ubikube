@@ -10,6 +10,7 @@ import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
 
 import {listAvailableDrives} from './scripts/drivelist';
+import {extract7z} from './scripts/unzip'
 import { createWriteStream } from 'fs'
 import request from 'request'
 import progress from 'request-progress'
@@ -64,14 +65,13 @@ export default class Ubikube extends React.Component {
         this.state.completed = 100
         this.setState(this.state)
 
-        // TODO image write
-
-        alert("Completed")
+        // TODO clear dir before
+        // extract7z('images/' + filename, 'images/raspbian-lite-pibakery', (err) => {
+          // TODO image write
+          alert("Completed")
+        // })
       })
       .pipe(createWriteStream('images/' + filename))
-
-
-
   }
 
   _initDrives() {
