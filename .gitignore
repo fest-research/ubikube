@@ -15,5 +15,5 @@ npm-debug.log
 .DS_Store
 
 # OS images
-images/*.img
-images/*.7z
+images/*
+!images/images.json
