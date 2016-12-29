@@ -50,31 +50,26 @@ export default class Ubikube extends React.Component {
     let memoryCard = this.refs.memoryCardSelect.getValue();
     let operatingSystem = this.refs.operatingSystemSelect.getValue();
 
-    // // TODO retrieve from picked os
-    // let image = "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z"
-    // // TODO dont download if already downloaded, verify md5
-    // progress(request(image))
-    //  .on('progress', state => {
-    //    this.state.completed = state.percent * 100
-    //    this.setState(this.state)
-    //   })
-    //   .on('error', err => console.log(err))
-    //   .on('end', () => {
-    //     this.state.completed = 100
-    //     this.setState(this.state)
-
-
-
+    // TODO retrieve from picked os
+    let image = "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z"
+    // TODO dont download if already downloaded, verify md5
+    progress(request(image))
+     .on('progress', state => {
+       this.state.completed = state.percent * 100
+       this.setState(this.state)
+      })
+      .on('error', err => console.log(err))
+      .on('end', () => {
+        this.state.completed = 100
+        this.setState(this.state)
         // TODO clear dir before
         extract7z('images/raspbian-lite-pibakery.7z', 'images/raspbian-lite-pibakery', (err) => {
-
           console.log(err);
-
           // TODO image write
           alert("Completed")
         })
-      // })
-      // .pipe(createWriteStream('images/raspbian-lite-pibakery.7z'))
+      })
+      .pipe(createWriteStream('images/raspbian-lite-pibakery.7z'))
   }
 
   _initDrives() {
