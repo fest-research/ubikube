@@ -1,5 +1,7 @@
-function extract7z (archive, outputdir, callback) {
-  console.log("asd");
+export function extract7z (archive, outputdir, callback) {
+
+var path = require('path')
+var exec = require('child_process').exec
   if (process.platform == 'darwin') {
     var binary = '"' + path.normalize(__dirname + '/../7z') + '"'
   }
@@ -9,8 +11,6 @@ function extract7z (archive, outputdir, callback) {
   else if (process.platform == 'linux') {
     var binary = '7za'
   }
-  console.log("asd");
-
   exec(binary + ' x -o"' + outputdir + '" "' + archive + '"', function (error, stdout, stderr) {
     callback(error)
   })
