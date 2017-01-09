@@ -75,11 +75,6 @@ export default class FlashDialog extends React.Component {
 
   flashImage(image) {
     this.setProgress('[3/4] Flashing image...', 'indeterminate')
-    this.updateImage(image)
-  }
-
-  updateImage(image) {
-    this.setProgress('[4/4] Updating image...', 'indeterminate')
     let filename = 'image/' + image.uncompressedFilename
     var osStream = createReadStream(filename)
     osStream.length = statSync(filename).size
@@ -90,7 +85,11 @@ export default class FlashDialog extends React.Component {
     // })
     //
     // console.log(sdWrite);
+    this.updateImage(image)
+  }
 
+  updateImage(image) {
+    this.setProgress('[4/4] Updating image...', 'indeterminate')
     this.setState({open: false});
   }
 
