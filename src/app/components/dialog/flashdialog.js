@@ -3,8 +3,9 @@ import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import {extract7z} from './../../scripts/unzip'
-import {readFileSync, createWriteStream, existsSync} from 'fs'
+import {readFileSync, createWriteStream, existsSync, statSync, createReadStream} from 'fs'
 import {sync} from 'md5-file'
+//import {write} from 'resin-image-write'
 import request from 'request'
 import progress from 'request-progress'
 
@@ -28,13 +29,13 @@ export default class FlashDialog extends React.Component {
       hostname: hostname,
       memoryCard: memoryCard,
       open: true,
-      title: "[3/4] Updating image..."
+      title: "[3/4] Flashing image..."
     });
     new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
       let image = readFileSync("image/config.json");
       image = JSON.parse(image);
       if (this.doesImageAlreadyExist(image)) {
-        this.updateImage();
+        this.flashImage(image);
       } else {
         this.downloadImage(image);
       }
@@ -66,19 +67,30 @@ export default class FlashDialog extends React.Component {
             this.setState({open: false});
             return
           }
-          this.updateImage()
+          this.flashImage(image)
         })
       })
       .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
-  updateImage() {
-    this.setProgress('[3/4] Updating image...', 'indeterminate')
-    this.flashImage()
+  flashImage(image) {
+    this.setProgress('[3/4] Flashing image...', 'indeterminate')
+    this.updateImage(image)
   }
 
-  flashImage() {
-    this.setProgress('[4/4] Flashing image...', 'indeterminate')
+  updateImage(image) {
+    this.setProgress('[4/4] Updating image...', 'indeterminate')
+    let filename = 'image/' + image.uncompressedFilename
+    var osStream = createReadStream(filename)
+    osStream.length = statSync(filename).size
+
+    // var sdWrite = imageWrite.write(devicePath, osStream, {
+    //   check: false,
+    //   size: statSync(imageFile).size
+    // })
+    //
+    // console.log(sdWrite);
+
     this.setState({open: false});
   }
 
