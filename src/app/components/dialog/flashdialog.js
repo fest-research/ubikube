@@ -3,9 +3,9 @@ import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import {extract7z} from './../../scripts/unzip'
-import {readFileSync, createWriteStream, existsSync, statSync, createReadStream} from 'fs'
+import {readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync} from 'fs'
 import {sync} from 'md5-file'
-//import {write} from 'resin-image-write'
+import {write} from 'etcher-image-write'
 import request from 'request'
 import progress from 'request-progress'
 
@@ -76,15 +76,30 @@ export default class FlashDialog extends React.Component {
   flashImage(image) {
     this.setProgress('[3/4] Flashing image...', 'indeterminate')
     let filename = 'image/' + image.uncompressedFilename
-    var osStream = createReadStream(filename)
-    osStream.length = statSync(filename).size
 
-    // var sdWrite = imageWrite.write(devicePath, osStream, {
-    //   check: false,
-    //   size: statSync(imageFile).size
-    // })
-    //
-    // console.log(sdWrite);
+    let sdWrite = write({
+      fd: openSync('/dev/sdb', 'rs+'), // '\\\\.\\PHYSICALDRIVE1' in Windows, for example.
+      device: '/dev/sdb',
+      size: statSync(filename).size
+    }, {
+      stream: createReadStream(filename),
+      size: statSync(filename).size
+    }, {
+      check: true
+    });
+
+    sdWrite.on('progress', function (state) {
+      console.log(state);
+    });
+
+    sdWrite.on('error', function (error) {
+      console.error(error)
+    });
+
+    sdWrite.on('done', function (success) {
+      console.log(success)
+    });
+
     this.updateImage(image)
   }
 

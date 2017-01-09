@@ -23,6 +23,7 @@ export default {
       new ExtractTextPlugin({filename: 'style.css', disable: false, allChunks: true})
     ]} : {
     plugins: [
+      // new webpack.IgnorePlugin(/diskpart|macmount$/),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
     ],
