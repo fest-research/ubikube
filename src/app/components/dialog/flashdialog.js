@@ -17,57 +17,36 @@ export default class FlashDialog extends React.Component {
       hostname: '',
       memoryCard: '',
       title: '',
-      progress: 0
+      progress: 0,
+      progressMode: 'indeterminate'
     };
   }
 
   show(token, hostname, memoryCard) {
-    this.setTitle("Flashing...");
-    this.setState({token: token, hostname: hostname, memoryCard: memoryCard, open: true});
-
-    this.sleep(10).then(() => {
-      // Read image configuration.
+    this.setState({
+      token: token,
+      hostname: hostname,
+      memoryCard: memoryCard,
+      open: true,
+      title: "[3/4] Updating image..."
+    });
+    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
       let image = readFileSync("image/config.json");
       image = JSON.parse(image);
       if (this.doesImageAlreadyExist(image)) {
-        this.flash();
+        this.updateImage();
       } else {
         this.downloadImage(image);
       }
     })
-
-
   }
 
-  setTitle(title) {
-    this.setState({title: title})
-  }
-
-  setProgress(progress) {
-    this.setState({progress: progress})
-  }
-
-  downloadImage(image) {
-    this.setTitle("Downloading image...");
-
-    progress(request(image.downloadUrl))
-      .on('progress', state => {
-        this.setProgress(state.percent * 100);
-      })
-      .on('error', err => console.log(err))
-      .on('end', () => {
-        this.setTitle("Extracting image...");
-        this.setProgress(0);
-        extract7z('image/' + image.compressedFilename, 'image/', (err) => {
-          if (err !== null) {
-            this.setState({open: false});
-            return
-          }
-
-          this.flash()
-        })
-      })
-      .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
+  setProgress(title, progressMode, progress) {
+    this.setState({
+      title: title === null ? this.state.title : title,
+      progressMode: progressMode === null ? this.state.progressMode : progressMode,
+      progress: progress === null ? this.state.progress : progress
+    })
   }
 
   doesImageAlreadyExist(image) {
@@ -75,30 +54,44 @@ export default class FlashDialog extends React.Component {
       sync('image/' + image.uncompressedFilename) === image.uncompressedMD5
   }
 
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  downloadImage(image) {
+    this.setProgress('[1/4] Downloading image...', 'determinate', 0)
+    progress(request(image.downloadUrl))
+      .on('progress', state => this.setProgress(null, null, state.percent * 100))
+      .on('error', err => console.log(err))
+      .on('end', () => {
+        this.setProgress('[2/4] Extracting image...', 'indeterminate')
+        extract7z('image/' + image.compressedFilename, 'image/', (err) => {
+          if (err !== null) {
+            this.setState({open: false});
+            return
+          }
+          this.updateImage()
+        })
+      })
+      .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
-  flash() {
-    this.setTitle("Flashing...");
-    // TODO update image
-    // TODO flash image
+  updateImage() {
+    this.setProgress('[3/4] Updating image...', 'indeterminate')
+    this.flashImage()
+  }
+
+  flashImage() {
+    this.setProgress('[4/4] Flashing image...', 'indeterminate')
     this.setState({open: false});
   }
 
   render() {
     return (
       <div>
-        <Dialog
-          title={this.state.title}
-          modal={true}
-          open={this.state.open}
-        >
-          <LinearProgress mode="determinate"
+        <Dialog title={this.state.title}
+                modal={true}
+                open={this.state.open}>
+          <LinearProgress mode={this.state.progressMode}
                           value={this.state.progress}/>
         </Dialog>
       </div>
     );
   }
-
 }
