@@ -11,7 +11,7 @@ import Input from './components/input/input';
 
 import { listAvailableDrives } from './scripts/drivelist';
 import { extract7z } from './scripts/unzip'
-import { readFileSync, createWriteStream } from 'fs'
+import { readFileSync, createWriteStream, existsSync } from 'fs'
 import { sync } from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
@@ -45,42 +45,40 @@ export default class Ubikube extends React.Component {
   _handleSubmit(e) {
     e.preventDefault();
 
-    // Read values from form fields
+    // Read values from form fields.
     let token = this.tokenField.getValue();
     let hostname = this.hostnameField.getValue();
     let memoryCard = this.refs.memoryCardSelect.getValue();
 
-    // Read image configuration
+    // Read image configuration.
     let image = readFileSync("image/config.json");
     image = JSON.parse(image)
 
-    progress(request(image.downloadUrl))
-     .on('progress', state => {
-       this.state.completed = state.percent * 100
-       this.setState(this.state)
-      })
-      .on('error', err => console.log(err))
-      .on('end', () => {
-        this.state.completed = 100
-        this.setState(this.state)
-        // TODO clear dir
-        extract7z('image/' + image.compressedFilename, 'image/', (err) => {
-          console.log(err);
+    if (existsSync('image/' + image.uncompressedFilename) &&
+        sync('image/' + image.uncompressedFilename) === image.uncompressedMD5) {
+          // Found valid image, proceeding.
           // TODO update image
           // TODO flash image
           alert("Completed")
+    } else {
+      progress(request(image.downloadUrl))
+       .on('progress', state => {
+         this.state.completed = state.percent * 100
+         this.setState(this.state)
         })
-      })
-      .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
-
-
-    // check md5
-    // unzip
-    // check md5
-    //const hash = sync('image/raspbian-lite-pibakery.7z')
-    //const shouldBe = "a15db1674ef12dbdf18754b09eb39350"
-    //console.log(`The MD5 sum of LICENSE.md is: ${hash}`)
-    // TODO dont download if already downloaded, verify md5
+        .on('error', err => console.log(err))
+        .on('end', () => {
+          this.state.completed = 100
+          this.setState(this.state)
+          extract7z('image/' + image.compressedFilename, 'image/', (err) => {
+            console.log(err);
+            // TODO update image
+            // TODO flash image
+            alert("Completed")
+          })
+        })
+        .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
+    }
   }
 
   _initDrives() {
