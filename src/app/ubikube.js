@@ -12,6 +12,7 @@ import Input from './components/input/input';
 import {listAvailableDrives} from './scripts/drivelist';
 import {extract7z} from './scripts/unzip'
 import { createWriteStream } from 'fs'
+import { sync } from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
 
@@ -49,6 +50,17 @@ export default class Ubikube extends React.Component {
     let hostname = this.hostnameField.getValue();
     let memoryCard = this.refs.memoryCardSelect.getValue();
     let operatingSystem = this.refs.operatingSystemSelect.getValue();
+
+    // TODO move it to external file
+
+    // TODO check if file exists
+
+    // md5 check compressed
+    const hash = sync('images/raspbian-lite-pibakery.7z')
+    // TODO read from json
+    const shouldBe = "a15db1674ef12dbdf18754b09eb39350"
+    console.log(`The MD5 sum of LICENSE.md is: ${hash}`)
+
 
     // TODO retrieve from picked os
     let image = "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z"
