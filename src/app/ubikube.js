@@ -3,20 +3,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import LinearProgress from 'material-ui/LinearProgress';
 
 import Selector from './components/selector/selector'
 import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
+import FlashDialog from './components/dialog/flashdialog';
 
-import { listAvailableDrives } from './scripts/drivelist';
-import { extract7z } from './scripts/unzip'
-import { readFileSync, createWriteStream, existsSync } from 'fs'
-import { sync } from 'md5-file'
-import request from 'request'
-import progress from 'request-progress'
+import {listAvailableDrives} from './scripts/drivelist';
 
-import { theme } from './themes/fjtheme';
+import {theme} from './themes/fjtheme';
 import styles from './ubikube.scss';
 
 export default class Ubikube extends React.Component {
@@ -26,8 +21,7 @@ export default class Ubikube extends React.Component {
       showAdvanced: false,
       advancedLabel: 'Show more options',
       drives: [],
-      systems: [],
-      completed: 0
+      systems: []
     };
 
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
@@ -50,35 +44,7 @@ export default class Ubikube extends React.Component {
     let hostname = this.hostnameField.getValue();
     let memoryCard = this.refs.memoryCardSelect.getValue();
 
-    // Read image configuration.
-    let image = readFileSync("image/config.json");
-    image = JSON.parse(image)
-
-    if (existsSync('image/' + image.uncompressedFilename) &&
-        sync('image/' + image.uncompressedFilename) === image.uncompressedMD5) {
-          // Found valid image, proceeding.
-          // TODO update image
-          // TODO flash image
-          alert("Completed")
-    } else {
-      progress(request(image.downloadUrl))
-       .on('progress', state => {
-         this.state.completed = state.percent * 100
-         this.setState(this.state)
-        })
-        .on('error', err => console.log(err))
-        .on('end', () => {
-          this.state.completed = 100
-          this.setState(this.state)
-          extract7z('image/' + image.compressedFilename, 'image/', (err) => {
-            console.log(err);
-            // TODO update image
-            // TODO flash image
-            alert("Completed")
-          })
-        })
-        .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
-    }
+    this.refs.flashDialog.show(token, hostname, memoryCard);
   }
 
   _initDrives() {
@@ -131,9 +97,7 @@ export default class Ubikube extends React.Component {
             <RaisedButton className={styles.ukSubmitButton} label="Flash"
                           type="submit" secondary={true}/>
           </form>
-          <h2>Status</h2>
-          <LinearProgress mode="determinate"
-                          value={this.state.completed}/>
+          <FlashDialog ref="flashDialog"/>
         </Paper>
       </div>
     </MuiThemeProvider>
