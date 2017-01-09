@@ -16,7 +16,8 @@ export default class FlashDialog extends React.Component {
       token: '',
       hostname: '',
       memoryCard: '',
-      completed: 0
+      title: '',
+      progress: 0
     };
   }
 
@@ -34,21 +35,28 @@ export default class FlashDialog extends React.Component {
     }
   }
 
+  setTitle(title) {
+    this.setState({title: title})
+  }
+
+  setProgress(progress) {
+    this.setState({progress: progress})
+  }
+
   downloadImage(image) {
+    this.setTitle("Downloading image...");
 
     progress(request(image.downloadUrl))
       .on('progress', state => {
-        this.state.completed = state.percent * 100;
-        this.setState(this.state)
+        this.setProgress(state.percent * 100);
       })
       .on('error', err => console.log(err))
       .on('end', () => {
-        this.state.completed = 100;
-        this.setState(this.state);
+        this.setTitle("Extracting image...");
+        this.setProgress(0);
         extract7z('image/' + image.compressedFilename, 'image/', (err) => {
-          if (err === null) {
+          if (err !== null) {
             this.setState({open: false});
-            alert(err);
             return
           }
 
@@ -63,22 +71,28 @@ export default class FlashDialog extends React.Component {
       sync('image/' + image.uncompressedFilename) === image.uncompressedMD5
   }
 
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   flash() {
+    this.setTitle("Flashing...");
+    this.sleep(2000).then(() => {});
     // TODO update image
     // TODO flash image
-    alert("Completed")
+    this.setState({open: false});
   }
 
   render() {
     return (
       <div>
         <Dialog
-          title="Flashing..."
+          title={this.state.title}
           modal={true}
           open={this.state.open}
         >
           <LinearProgress mode="determinate"
-                          value={this.state.completed}/>
+                          value={this.state.progress}/>
         </Dialog>
       </div>
     );
