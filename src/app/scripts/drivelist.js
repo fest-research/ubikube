@@ -6,48 +6,12 @@ import yaml from 'js-yaml';
 import os from 'os';
 import path from 'path';
 
-/**
- * @summary Absolute path to platform scripts
- * @constant
- * @private
- * @type {String}
- */
 const SCRIPTS_PATH = 'scripts';
 
-/**
- * @summary Script paths
- * @namespace paths
- * @public
- */
 const paths = {
-
-  /**
-   * @property {String} win32
-   * @memberof paths
-   *
-   * @description
-   * Windows drivelist script path
-   */
   win32: path.join(SCRIPTS_PATH, 'win32.bat'),
-
-  /**
-   * @property {String} darwin
-   * @memberof paths
-   *
-   * @description
-   * macOS drivelist script path
-   */
   darwin: path.join(SCRIPTS_PATH, 'darwin.sh'),
-
-  /**
-   * @property {String} linux
-   * @memberof paths
-   *
-   * @description
-   * GNU/Linux drivelist script path
-   */
   linux: path.join(SCRIPTS_PATH, 'linux.sh')
-
 };
 
 /**

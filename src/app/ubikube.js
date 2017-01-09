@@ -9,14 +9,14 @@ import Selector from './components/selector/selector'
 import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
 
-import {listAvailableDrives} from './scripts/drivelist';
-import {extract7z} from './scripts/unzip'
-import { createWriteStream } from 'fs'
+import { listAvailableDrives } from './scripts/drivelist';
+import { extract7z } from './scripts/unzip'
+import { readFileSync, createWriteStream } from 'fs'
 import { sync } from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
 
-import {theme} from './themes/fjtheme';
+import { theme } from './themes/fjtheme';
 import styles from './ubikube.scss';
 
 export default class Ubikube extends React.Component {
@@ -33,7 +33,6 @@ export default class Ubikube extends React.Component {
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this._initDrives();
-    this._initSystems();
   }
 
   _switchAdvancedSectionVisibility() {
@@ -46,26 +45,16 @@ export default class Ubikube extends React.Component {
   _handleSubmit(e) {
     e.preventDefault();
 
+    // Read values from form fields
     let token = this.tokenField.getValue();
     let hostname = this.hostnameField.getValue();
     let memoryCard = this.refs.memoryCardSelect.getValue();
-    let operatingSystem = this.refs.operatingSystemSelect.getValue();
 
-    // TODO move it to external file
+    // Read image configuration
+    let image = readFileSync("image/config.json");
+    image = JSON.parse(image)
 
-    // TODO check if file exists
-
-    // md5 check compressed
-    const hash = sync('images/raspbian-lite-pibakery.7z')
-    // TODO read from json
-    const shouldBe = "a15db1674ef12dbdf18754b09eb39350"
-    console.log(`The MD5 sum of LICENSE.md is: ${hash}`)
-
-
-    // TODO retrieve from picked os
-    let image = "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z"
-    // TODO dont download if already downloaded, verify md5
-    progress(request(image))
+    progress(request(image.downloadUrl))
      .on('progress', state => {
        this.state.completed = state.percent * 100
        this.setState(this.state)
@@ -74,14 +63,24 @@ export default class Ubikube extends React.Component {
       .on('end', () => {
         this.state.completed = 100
         this.setState(this.state)
-        // TODO clear dir before
-        extract7z('images/raspbian-lite-pibakery.7z', 'images/raspbian-lite-pibakery', (err) => {
+        // TODO clear dir
+        extract7z('image/' + image.compressedFilename, 'image/', (err) => {
           console.log(err);
-          // TODO image write
+          // TODO update image
+          // TODO flash image
           alert("Completed")
         })
       })
-      .pipe(createWriteStream('images/raspbian-lite-pibakery.7z'))
+      .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
+
+
+    // check md5
+    // unzip
+    // check md5
+    //const hash = sync('image/raspbian-lite-pibakery.7z')
+    //const shouldBe = "a15db1674ef12dbdf18754b09eb39350"
+    //console.log(`The MD5 sum of LICENSE.md is: ${hash}`)
+    // TODO dont download if already downloaded, verify md5
   }
 
   _initDrives() {
@@ -97,16 +96,6 @@ export default class Ubikube extends React.Component {
 
       this.setState(this.state)
     });
-  }
-
-  _initSystems() {
-    // TODO use loader for json, test on prod
-    var fs = require("fs");
-    this.data = fs.readFileSync("images/images.json");
-    this.data = JSON.parse(this.data)
-    for (var i = 0; i < this.data.length; i++) {
-      this.state.systems.push(this.data[i].displayName)
-    }
   }
 
   render() {
@@ -127,10 +116,6 @@ export default class Ubikube extends React.Component {
         <Paper className={styles.ukCard} zDepth={0} children={this.props.children}>
           <form onSubmit={this._handleSubmit} className={styles.ukFlexContainer}>
             <h2 className={styles.ukCardHeader}>Setup</h2>
-            <Selector label="Operating system"
-                      tipText="Image will be downloaded before flashing image."
-                      ref="operatingSystemSelect"
-                      items={this.state.systems}/>
             <Selector label="Memory card"
                       tipText="Memory card to be flashed."
                       ref="memoryCardSelect"

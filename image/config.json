@@ -1,0 +1,11 @@
+{
+		"name": "Raspbian Lite",
+		"version": 2.0,
+		"compressedMD5": "a15db1674ef12dbdf18754b09eb39350",
+		"uncompressedMD5": "93077033522fd49e9b0efa7f75f91407",
+		"downloadUrl": "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z",
+		"uncompressedSize": 1389363200,
+		"filename": "raspbian-lite-pibakery.img",
+		"compressedFilename": "raspbian-lite-pibakery.7z",
+		"uncompressedFilename": "raspbian-lite-pibakery-new.img"
+}
