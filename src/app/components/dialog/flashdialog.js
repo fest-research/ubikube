@@ -22,17 +22,21 @@ export default class FlashDialog extends React.Component {
   }
 
   show(token, hostname, memoryCard) {
+    this.setTitle("Flashing...");
     this.setState({token: token, hostname: hostname, memoryCard: memoryCard, open: true});
 
-    // Read image configuration.
-    let image = readFileSync("image/config.json");
-    image = JSON.parse(image);
+    this.sleep(10).then(() => {
+      // Read image configuration.
+      let image = readFileSync("image/config.json");
+      image = JSON.parse(image);
+      if (this.doesImageAlreadyExist(image)) {
+        this.flash();
+      } else {
+        this.downloadImage(image);
+      }
+    })
 
-    if (this.doesImageAlreadyExist(image)) {
-      this.flash();
-    } else {
-      this.downloadImage(image);
-    }
+
   }
 
   setTitle(title) {
@@ -77,7 +81,6 @@ export default class FlashDialog extends React.Component {
 
   flash() {
     this.setTitle("Flashing...");
-    this.sleep(2000).then(() => {});
     // TODO update image
     // TODO flash image
     this.setState({open: false});
