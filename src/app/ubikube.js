@@ -48,6 +48,18 @@ export default class Ubikube extends React.Component {
   }
 
   _initDrives() {
+    const drivelist = require('drivelist');
+
+    drivelist.list((error, drives) => {
+      if (error) {
+        throw error;
+      }
+
+      drives.forEach((drive) => {
+        console.log(drive);
+      });
+    });
+
     // Load listAvailableDrives of available drives
     listAvailableDrives((error, drives) => {
       if (error) {

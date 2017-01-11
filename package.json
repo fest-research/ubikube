@@ -1,42 +1,24 @@
 {
   "name": "ubikube",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "bootstraper.js",
   "license": "MIT",
-  "scripts": {
-    "build": "run-p build:*",
-    "build:electron": "cross-env NODE_ENV=production webpack -p --config webpack.config.electron.babel.js",
-    "build:app": "cross-env NODE_ENV=production webpack -p --config webpack.config.app.babel.js",
-    "start": "run-p start:*",
-    "start:electron": "electron --require babel-register src/electron.js",
-    "start:server": "cross-env NODE_ENV=development webpack-dev-server -d --config webpack.config.app.babel.js"
-  },
   "dependencies": {
     "electron": "^1.4.10",
+    "electron-compile": "^5.1.2",
     "material-ui": "^0.16.5",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.18.2",
-    "babel-eslint": "^7.1.1",
-    "babel-loader": "^6.2.8",
-    "babel-plugin-transform-class-properties": "^6.19.0",
-    "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "babel-preset-es2015": "^6.18.0",
-    "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.18.0",
     "cross-env": "^3.1.3",
     "cross-unzip": "^0.1.0",
-    "css-loader": "^0.26.1",
-    "eslint": "^3.9.1",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.1.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^6.6.0",
+    "drivelist": "^5.0.5",
+    "electron-compilers": "^5.3.2",
     "etcher-image-write": "^9.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta",
     "js-yaml": "^3.7.0",
@@ -49,10 +31,6 @@
     "react-hot-loader": "^3.0.0-beta",
     "request-progress": "^3.0.0",
     "resin-image-write": "^4.0.2",
-    "sass-loader": "^4.1.1",
-    "strip-ansi": "^3.0.1",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.1.0-beta",
-    "webpack-dev-server": "^2.1.0-beta"
+    "strip-ansi": "^3.0.1"
   }
 }

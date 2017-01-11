@@ -9,22 +9,30 @@ const createWindow = () => {
     width: 1000,
     height: 1000,
     resizable: false,
-    frame: false,
+    // frame: false,
     show: false,
     titleBarStyle: 'hidden'
   });
 
-  if (process.env.NODE_ENV === 'production') {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true,
-    }));
-    win.setMenu(null);
-  } else {
-    win.loadURL('http://localhost:8080');
-    win.webContents.openDevTools();
-  }
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, 'app/index.html'),
+    protocol: 'file:',
+    slashes: true,
+  }));
+  win.webContents.openDevTools();
+
+
+  // if (process.env.NODE_ENV === 'production') {
+  //   win.loadURL(url.format({
+  //     pathname: path.join(__dirname, 'index.html'),
+  //     protocol: 'file:',
+  //     slashes: true,
+  //   }));
+  //   win.setMenu(null);
+  // } else {
+  //   win.loadURL('http://localhost:8080');
+  //   win.webContents.openDevTools();
+  // }
 
   win.on('closed', () => {
     win = null;
