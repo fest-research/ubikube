@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './tip.scss';
+// import styles from './tip.scss';
 
 export default class Tip extends React.Component {
   constructor(props) {
@@ -7,6 +7,8 @@ export default class Tip extends React.Component {
   }
 
   render() {
-    return <div className={styles.ukTip}>{this.props.text}</div>
+    return <div
+    // className={styles.ukTip}
+    >{this.props.text}</div>
   }
 }

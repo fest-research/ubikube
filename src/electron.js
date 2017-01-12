@@ -1,58 +1,46 @@
-import path from 'path';
-import url from 'url';
-import {BrowserWindow, app} from 'electron';
+'use strict';
 
-let win;
+const electron = require('electron');
+const app = electron.app;
+const url = require('url')
+const path = require('path')
+const BrowserWindow = electron.BrowserWindow;
 
-const createWindow = () => {
-  win = new BrowserWindow({
+let mainWindow;
+
+function createWindow () {
+  mainWindow = new BrowserWindow({
     width: 1000,
     height: 1000,
     resizable: false,
-    // frame: false,
+    frame: false,
     show: false,
     titleBarStyle: 'hidden'
   });
-
-  win.loadURL(url.format({
+  mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app/index.html'),
     protocol: 'file:',
     slashes: true,
   }));
-  win.webContents.openDevTools();
-
-
-  // if (process.env.NODE_ENV === 'production') {
-  //   win.loadURL(url.format({
-  //     pathname: path.join(__dirname, 'index.html'),
-  //     protocol: 'file:',
-  //     slashes: true,
-  //   }));
-  //   win.setMenu(null);
-  // } else {
-  //   win.loadURL('http://localhost:8080');
-  //   win.webContents.openDevTools();
-  // }
-
-  win.on('closed', () => {
-    win = null;
+  mainWindow.webContents.openDevTools();
+  mainWindow.on('closed', function() {
+    mainWindow = null;
   });
-
-  win.on('ready-to-show', () => {
-    win.show()
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show()
   });
-};
+}
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', () => {
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', () => {
-  if (win === null) {
+app.on('activate', function () {
+  if (mainWindow === null) {
     createWindow();
   }
 });

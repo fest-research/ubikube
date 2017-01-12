@@ -1,8 +1,11 @@
 {
   "name": "ubikube",
   "version": "0.0.1",
-  "main": "bootstraper.js",
+  "main": "bootstrap.js",
   "license": "MIT",
+  "scripts": {
+    "start": "electron src/electron.js"
+  },
   "dependencies": {
     "electron": "^1.4.10",
     "electron-compile": "^5.1.2",

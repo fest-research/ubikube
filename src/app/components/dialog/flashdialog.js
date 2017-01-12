@@ -7,6 +7,7 @@ import {readFileSync, createWriteStream, existsSync, statSync, createReadStream,
 import {sync} from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
+import {write} from 'etcher-image-write'
 
 export default class FlashDialog extends React.Component {
   constructor(props) {
@@ -76,28 +77,30 @@ export default class FlashDialog extends React.Component {
     this.setProgress('[3/4] Flashing image...', 'indeterminate')
     let filename = 'image/' + image.uncompressedFilename
 
-    // let sdWrite = write({
-    //   fd: openSync('/dev/sdb', 'rs+'), // '\\\\.\\PHYSICALDRIVE1' in Windows, for example.
-    //   device: '/dev/sdb',
-    //   size: statSync(filename).size
-    // }, {
-    //   stream: createReadStream(filename),
-    //   size: statSync(filename).size
-    // }, {
-    //   check: true
-    // });
-    //
-    // sdWrite.on('progress', function (state) {
-    //   console.log(state);
-    // });
-    //
-    // sdWrite.on('error', function (error) {
-    //   console.error(error)
-    // });
-    //
-    // sdWrite.on('done', function (success) {
-    //   console.log(success)
-    // });
+    console.log("asd");
+
+    let sdWrite = write({
+      fd: openSync('/dev/sdb', 'rs+'), // '\\\\.\\PHYSICALDRIVE1' in Windows, for example.
+      device: '/dev/sdb',
+      size: statSync(filename).size
+    }, {
+      stream: createReadStream(filename),
+      size: statSync(filename).size
+    }, {
+      check: true
+    });
+
+    sdWrite.on('progress', function (state) {
+      console.log(state);
+    });
+
+    sdWrite.on('error', function (error) {
+      console.error(error)
+    });
+
+    sdWrite.on('done', function (success) {
+      console.log(success)
+    });
 
     this.updateImage(image)
   }
