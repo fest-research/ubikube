@@ -1,0 +1,101 @@
+/* Global */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.uk-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.uk-card {
+  height: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 32px;
+}
+
+.uk-card-header {
+  margin-bottom: 0;
+  margin-top: 24px;
+}
+
+.uk-text-field {
+  flex: 0 1 auto;
+}
+
+.uk-flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.uk-advanced-button {
+  align-self: flex-start;
+  margin: 8px 0 !important;
+}
+
+.uk-advanced-button span {
+  padding: 0 !important;
+}
+
+.uk-submit-button {
+  align-self: flex-start;
+}
+
+
+/* Input */
+
+.uk-text-field {
+  flex: 0 1 auto;
+  align-self: center;
+}
+
+.uk-input {
+  display: flex;
+}
+
+/* Selector */
+
+.uk-selector-container {
+  display: flex;
+}
+
+.uk-selector {
+  flex: 0 1 auto;
+  align-self: center;
+}
+
+/* Tip */
+
+.uk-tip {
+  align-self: flex-end;
+  flex: 1 1 auto;
+  margin-left: 48px;
+  position: relative;
+  top: -6px;
+  width: 100%;
+}
+
+/* Toolbar */
+
+.uk-toolbar {
+  flex: 0 1 auto;
+  height: 64px !important;
+  -ms-overflow-style: scrollbar;
+  -webkit-app-region: drag;
+}
+
+.uk-toolbar-title {
+  color: white !important;
+  font-size: 24px !important;
+  margin-left: 32px;
+}
+
+.uk-toolbar-icon {
+    color: white !important;
+  -webkit-app-region: no-drag;
+}

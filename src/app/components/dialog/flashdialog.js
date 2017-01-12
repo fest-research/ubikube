@@ -2,12 +2,12 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
-import {extract7z} from './../../scripts/unzip'
-import {readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync} from 'fs'
-import {sync} from 'md5-file'
+import { extract7z} from './../../scripts/unzip'
+import { readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync } from 'fs'
+import { sync} from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
-import {write} from 'etcher-image-write'
+import { write} from 'etcher-image-write'
 
 export default class FlashDialog extends React.Component {
   constructor(props) {

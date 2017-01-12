@@ -1,6 +1,6 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {white} from 'material-ui/styles/colors';
-import {grey500} from 'material-ui/styles/colors';
+import { white } from 'material-ui/styles/colors';
+import { grey500 } from 'material-ui/styles/colors';
 
 const fujitsuRed = '#C80000';
 

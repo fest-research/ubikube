@@ -9,10 +9,8 @@ import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
 import FlashDialog from './components/dialog/flashdialog';
 
-import {list} from 'drivelist';
-
-import {theme} from './themes/fjtheme';
-// import styles from './ubikube.scss';
+import { list } from 'drivelist';
+import { theme } from './themes/fjtheme';
 
 export default class Ubikube extends React.Component {
   constructor(props) {
@@ -68,9 +66,7 @@ export default class Ubikube extends React.Component {
     let advancedSection;
 
     if (showAdvanced) {
-      advancedSection = <Paper
-      // className={styles.ukMoreOptionsCard}
-       zDepth={0}>
+      advancedSection = <Paper zDepth={0}>
         <h2>Wireless network</h2>
         <Input hintText="SSID" tipText="Name of the wireless network."/>
         <Input hintText="Password" tipText="Password of the wireless network."/>
@@ -78,19 +74,12 @@ export default class Ubikube extends React.Component {
     }
 
     return <MuiThemeProvider muiTheme={theme}>
-      <div
-      // className={styles.ukRoot}
-      >
+      <div className='uk-root'>
         <Toolbar title="Ubikube"/>
-        <Paper
-        // className={styles.ukCard}
+        <Paper className='uk-card'
          zDepth={0} children={this.props.children}>
-          <form onSubmit={this._handleSubmit}
-          // className={styles.ukFlexContainer}
-          >
-            <h2
-            // className={styles.ukCardHeader}
-            >Setup</h2>
+          <form onSubmit={this._handleSubmit} className='uk-flex-container'>
+            <h2 className='uk-card-header'>Setup</h2>
             <Selector label="Memory card"
                       tipText="Memory card to be flashed."
                       ref="memoryCardSelect"
@@ -100,15 +89,12 @@ export default class Ubikube extends React.Component {
             <Input hintText="Hostname" inputRef={node => this.hostnameField = node}
                    tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
-            <FlatButton
-            // className={styles.ukShowAdvancedButton}
+            <FlatButton className='uk-advanced-button'
                         label={this.state.advancedLabel}
                         onClick={this._switchAdvancedSectionVisibility}
-                        // className={styles.ukAdvancedButton}
                         rippleColor="white" hoverColor="white"/>
-            <RaisedButton
-            // className={styles.ukSubmitButton}
-            label="Flash"
+            <RaisedButton className='uk-submit-button'
+                          label="Flash"
                           type="submit" secondary={true}/>
           </form>
           <FlashDialog ref="flashDialog"/>

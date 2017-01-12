@@ -2,7 +2,6 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Tip from '../tip/tip'
-// import styles from './selector.scss';
 
 export default class Selector extends React.Component {
   constructor(props) {
@@ -26,7 +25,6 @@ export default class Selector extends React.Component {
   }
 
   render() {
-    // Render items, that can be selected
     var items = [];
     var index = 0;
     if(this.props.items) {
@@ -36,11 +34,8 @@ export default class Selector extends React.Component {
       }
     }
 
-    return <div
-    // className={styles.ukSelectorContainer}
-    >
-             <SelectField
-            //  className={styles.ukSelector}
+    return <div className='uk-selector-container'>
+             <SelectField className='uk-selector'
                           floatingLabelText={this.props.label}
                           onChange={this._handleChange}
                           value={this.state.value}
