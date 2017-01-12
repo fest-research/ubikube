@@ -9,7 +9,7 @@ import Toolbar from './components/toolbar/toolbar';
 import Input from './components/input/input';
 import FlashDialog from './components/dialog/flashdialog';
 
-import {listAvailableDrives} from './scripts/drivelist';
+import {list} from 'drivelist';
 
 import {theme} from './themes/fjtheme';
 // import styles from './ubikube.scss';
@@ -51,17 +51,6 @@ export default class Ubikube extends React.Component {
     const drivelist = require('drivelist');
 
     drivelist.list((error, drives) => {
-      if (error) {
-        throw error;
-      }
-
-      drives.forEach((drive) => {
-        console.log(drive);
-      });
-    });
-
-    // Load listAvailableDrives of available drives
-    listAvailableDrives((error, drives) => {
       if (error) {
         throw error;
       }
@@ -118,7 +107,7 @@ export default class Ubikube extends React.Component {
                         // className={styles.ukAdvancedButton}
                         rippleColor="white" hoverColor="white"/>
             <RaisedButton
-            // className={styles.ukSubmitButton} 
+            // className={styles.ukSubmitButton}
             label="Flash"
                           type="submit" secondary={true}/>
           </form>
