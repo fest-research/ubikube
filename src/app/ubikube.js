@@ -10,7 +10,7 @@ import Input from './components/input/input';
 import ProgressDialog from './components/progressdialog/progressdialog';
 
 import { list } from 'drivelist';
-import { theme } from './themes/fjtheme';
+import { mainTheme } from './themes';
 
 export default class Ubikube extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ export default class Ubikube extends React.Component {
       </Paper>
     }
 
-    return <MuiThemeProvider muiTheme={theme}>
+    return <MuiThemeProvider muiTheme={mainTheme}>
       <div className='uk-root'>
         <Toolbar title="Ubikube"/>
         <Paper className='uk-card'

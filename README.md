@@ -26,3 +26,5 @@ sudo env PATH="$PATH" npm start
 - Add validation.
 - Don't display system drives as devices.
 - Pick first device by default.
+- Remove unnecessary dependencies from `package.json`.
+- Add file formatters.
