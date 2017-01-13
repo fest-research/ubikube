@@ -2,14 +2,28 @@ import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Tip from '../tip/tip'
+import { list } from 'drivelist'
 
-export default class Selector extends React.Component {
+export default class DriveSelector extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: null
+      value: null,
+      drives: []
     };
+
+    const drivelist = require('drivelist');
+    list((error, drives) => {
+      drives.map((drive) => {
+        this.state.drives.push(`${drive.device} (${drive.description})`);
+      });
+      if (drives.length > 0) {
+        this.setState({value: `${drives[0].device} (${drives[0].description})`})
+      } else {
+        this.setState({value: null})
+      }
+    });
 
     this._handleChange = this._handleChange.bind(this)
   }
@@ -19,19 +33,15 @@ export default class Selector extends React.Component {
   }
 
   _handleChange(event, index, value) {
-    this.setState({
-      value: value
-    })
+    this.setState({value: value})
   }
 
   render() {
-    var items = [];
+    let items = [];
     var index = 0;
-    if(this.props.items) {
-      for (var item of this.props.items) {
-        items.push(<MenuItem key={index} value={item} primaryText={item}/>);
-        index++;
-      }
+    for (var item of this.state.drives) {
+      items.push(<MenuItem key={index} value={item} primaryText={item}/>);
+      index++;
     }
 
     return <div className='uk-selector-container'>
