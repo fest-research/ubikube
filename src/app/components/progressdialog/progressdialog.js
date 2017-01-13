@@ -31,16 +31,22 @@ export default class ProgressDialog extends React.Component {
 
     // Hostname.
     this.hostname = ''
+
+    // Operating system image configuration (can be loaded only once).
+    this.imageConfig = readFileSync('image/config.json');
+    this.imageConfig = JSON.parse(this.imageConfig);
   }
 
   show(token, hostname, device) {
+    // Init state everytime dialog is shown.
     this.init(token, hostname, device)
-    let image = readFileSync('image/config.json');
-    image = JSON.parse(image);
-    if (this.isImageDownloaded(image)) {
-      this.flashImage(image);
+
+    // If image is already downloaded procees to image flashing, if not start
+    // with image download and extraction.
+    if (this.isImageDownloaded()) {
+      this.flashImage();
     } else {
-      this.downloadImage(image);
+      this.downloadImage();
     }
   }
 
@@ -48,22 +54,21 @@ export default class ProgressDialog extends React.Component {
     this.token = token;
     this.hostname = hostname;
     this.device = device.substr(0, device.indexOf(' '));
-
-    // Init state everytime.
     this.state.open = true;
     this.state.title = '';
     this.state.description = '';
     this.setState(this.state)
   }
 
-  isImageDownloaded(image) {
-    return existsSync('image/' + image.uncompressedFilename) &&
-      sync('image/' + image.uncompressedFilename) === image.uncompressedMD5
+  isImageDownloaded() {
+    // Checks if image is in directory and verifies is MD5 checksum.
+    return existsSync('image/' + this.imageConfig.uncompressedFilename) &&
+      sync('image/' + this.imageConfig.uncompressedFilename) === this.imageConfig.uncompressedMD5
   }
 
-  downloadImage(image) {
+  downloadImage() {
     this.setProgress('Downloading image...', null, 'determinate', 0)
-    progress(request(image.downloadUrl))
+    progress(request(this.imageConfig.downloadUrl))
       .on('progress', state => {
         console.log(state);
         this.setProgress(null, `${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100);
@@ -71,11 +76,11 @@ export default class ProgressDialog extends React.Component {
         console.log(err);
         this.close();
       }).on('end', () => {
-        this.extractImage(image);
+        this.extractImage();
       }).pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
-  extractImage (image) {
+  extractImage () {
     this.setProgress('Extracting image...', null, 'indeterminate', undefined)
     let binary
     if (process.platform == 'darwin') {
@@ -85,18 +90,18 @@ export default class ProgressDialog extends React.Component {
     } else if (process.platform == 'linux') {
       binary = '7za'
     }
-    exec(binary + ' x -o"image/" "image/' + image.compressedFilename + '"', (error, stdout, stderr) => {
+    exec(binary + ' x -o"image/" "image/' + this.imageConfig.compressedFilename + '"', (error, stdout, stderr) => {
       if (error !== null) {
         this.close();
         return
       }
-      this.flashImage(image)
+      this.flashImage()
     })
   }
 
-  flashImage(image) {
+  flashImage() {
     this.setProgress('Flashing image...', null, 'determinate', 0)
-    let filename = 'image/' + image.uncompressedFilename
+    let filename = 'image/' + this.imageConfig.uncompressedFilename
     write({
       fd: openSync(this.device, 'rs+'),
       device: this.device,
@@ -115,11 +120,11 @@ export default class ProgressDialog extends React.Component {
     }).on('done', success => {
       console.log(success);
       this.setProgress(null, `Data successfully transferred, checksum ${success.sourceChecksum}`, null, 100)
-      this.updateImage(image);
+      this.updateImage();
     });
   }
 
-  updateImage(image) {
+  updateImage() {
     this.setProgress('Updating image...', null, 'indeterminate', undefined);
     this.close();
   }

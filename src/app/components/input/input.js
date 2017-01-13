@@ -4,8 +4,8 @@ import Tip from '../tip/tip'
 
 export default class Input extends React.Component {
   render() {
-    return <div className='uk-input'>
-             <TextField className='uk-text-field'
+    return <div className='uk-input-container'>
+             <TextField className='uk-input'
                         hintText={this.props.hintText}
                         fullWidth={true}
                         ref={this.props.inputRef}/>
