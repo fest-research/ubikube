@@ -24,7 +24,5 @@ sudo env PATH="$PATH" npm start
 - Add `cloud-init` scripts after image flash.
 - Read fields before flash process (currently it's hardcoded).
 - Add validation.
-- Don't display system drives as devices.
-- Pick first device by default.
 - Remove unnecessary dependencies from `package.json`.
 - Add file formatters.
