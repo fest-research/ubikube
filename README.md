@@ -11,6 +11,10 @@ npm i
 sudo env PATH="$PATH" npm start
 ```
 
+## Tools
+
+- File formatting - `npm run format`
+
 ## Interface
 <p align="center">
     <img src="assets/interface.png"/>
@@ -19,8 +23,7 @@ sudo env PATH="$PATH" npm start
 
 ## Possible enhancements
 
-- Add build files.
-- Move from CSS to SCSS.
+- Use `electron-compile` or other tool for building (SCSS and JS)?
 - Remove unnecessary dependencies from `package.json`.
 - Add file formatters.
 - Add validation.

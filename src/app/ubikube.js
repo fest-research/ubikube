@@ -1,47 +1,47 @@
-import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import React from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Paper from 'material-ui/Paper'
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 
 import DriveSelector from './components/driveselector/driveselector'
-import Toolbar from './components/toolbar/toolbar';
-import Input from './components/input/input';
-import ProgressDialog from './components/progressdialog/progressdialog';
+import Toolbar from './components/toolbar/toolbar'
+import Input from './components/input/input'
+import ProgressDialog from './components/progressdialog/progressdialog'
 
-import { list } from 'drivelist';
-import { mainTheme } from './themes';
+import { list } from 'drivelist'
+import { mainTheme } from './themes'
 
 export default class Ubikube extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       showAdvanced: false,
       advancedLabel: 'Show more options',
       drives: [],
       systems: []
-    };
+    }
 
-    this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
+    this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this)
+    this._handleSubmit = this._handleSubmit.bind(this)
   }
 
-  _switchAdvancedSectionVisibility() {
+  _switchAdvancedSectionVisibility () {
     this.setState({
       showAdvanced: !this.state.showAdvanced,
       advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options'
-    });
+    })
   }
 
-  _handleSubmit(e) {
-    e.preventDefault();
+  _handleSubmit (e) {
+    e.preventDefault()
     this.refs.progressDialog.show(this.tokenField.getValue(),
-      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue());
+      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue())
   }
 
-  render() {
-    const showAdvanced = this.state.showAdvanced;
-    let advancedSection;
+  render () {
+    const showAdvanced = this.state.showAdvanced
+    let advancedSection
 
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
