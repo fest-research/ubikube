@@ -14,6 +14,7 @@ sudo env PATH="$PATH" npm start
 ## Interface
 <p align="center">
     <img src="assets/interface.png"/>
+    <img src="assets/progress.png"/>
 </p>
 
 ## Possible enhancements
@@ -21,6 +22,7 @@ sudo env PATH="$PATH" npm start
 - Add build files.
 - Move from CSS to SCSS.
 - Add `cloud-init` scripts after image flash.
-- Update progress bar on image flash.
 - Read fields before flash process (currently it's hardcoded).
 - Add validation.
+- Don't display system drives as devices.
+- Pick first device by default.
