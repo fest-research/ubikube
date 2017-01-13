@@ -11,7 +11,7 @@ import request from 'request'
 import progress from 'request-progress'
 import { write } from 'etcher-image-write'
 
-export default class FlashDialog extends React.Component {
+export default class ProgressDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ export default class FlashDialog extends React.Component {
       hostname: hostname,
       memoryCard: memoryCard.substr(0, memoryCard.indexOf(' ')),
       open: true,
-      title: ``,
+      title: '',
       description: ''
     });
   }
