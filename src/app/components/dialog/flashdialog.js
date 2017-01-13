@@ -6,6 +6,7 @@ import { readFileSync, createWriteStream, existsSync, statSync, createReadStream
 import { normalize } from 'path'
 import { exec } from 'child_process'
 import { sync } from 'md5-file'
+import prettyBytes from 'pretty-bytes'
 import request from 'request'
 import progress from 'request-progress'
 import { write } from 'etcher-image-write'
@@ -42,7 +43,8 @@ export default class FlashDialog extends React.Component {
       hostname: hostname,
       memoryCard: memoryCard.substr(0, memoryCard.indexOf(' ')),
       open: true,
-      title: ''
+      title: ``,
+      description: ''
     });
   }
 
@@ -54,14 +56,19 @@ export default class FlashDialog extends React.Component {
   downloadImage(image) {
     this.setProgress('Downloading image...', null, 'determinate', 0)
     progress(request(image.downloadUrl))
-      .on('progress', state => this.setProgress(null, null, null, state.percent * 100))
-      .on('error', err => console.log(err))
-      .on('end', () => this.extractImage(image))
-      .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
+      .on('progress', state => {
+        console.log(state);
+        this.setProgress(null, `${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100);
+      }).on('error', err => {
+        console.log(err);
+        this.close();
+      }).on('end', () => {
+        this.extractImage(image);
+      }).pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
   extractImage (image) {
-    this.setProgress('Extracting image...', null, 'indeterminate')
+    this.setProgress('Extracting image...', null, 'indeterminate', undefined)
     let binary
     if (process.platform == 'darwin') {
       binary = '"' + normalize(process.cwd() + '/bin/7z') + '"'
@@ -92,19 +99,20 @@ export default class FlashDialog extends React.Component {
     }, {
       check: true
     }).on('progress', state => {
-      console.log(state)
-      this.setProgress(null, `Transferred ${state.transferred} from ${state.length}, ${state.eta} seconds left`, null, state.percentage)
+      console.log(state);
+      this.setProgress(null, `Transferred ${prettyBytes(state.transferred)} from ${prettyBytes(state.length)}, ${state.eta} seconds left`, null, state.percentage)
     }).on('error', error => {
-      console.log(error)
+      console.log(error);
       this.close();
     }).on('done', success => {
-      console.log(success)
+      console.log(success);
+      this.setProgress(null, `Data successfully transferred, checksum ${success.sourceChecksum}`, null, 100)
       this.updateImage(image);
     });
   }
 
   updateImage(image) {
-    this.setProgress('Updating image...', null, 'indeterminate');
+    this.setProgress('Updating image...', null, 'indeterminate', undefined);
     this.close();
   }
 
@@ -130,7 +138,9 @@ export default class FlashDialog extends React.Component {
           <LinearProgress mode={this.state.progressMode}
                           value={this.state.progress}/>
           <br/>
-          <span className='uk-dialog-description'>{this.state.description}</span>
+          <span className='uk-dialog-description'>
+            {this.state.description}
+          </span>
         </Dialog>
       </div>
     );
