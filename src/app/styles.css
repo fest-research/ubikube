@@ -46,6 +46,12 @@ html, body {
   align-self: flex-start;
 }
 
+/* Dialog */
+
+.uk-dialog-description {
+  color: #9e9e9e;
+}
+
 /* Input */
 
 .uk-text-field {
