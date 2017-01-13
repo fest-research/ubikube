@@ -13,13 +13,17 @@ export default class DriveSelector extends React.Component {
       drives: []
     };
 
-    const drivelist = require('drivelist');
     list((error, drives) => {
       drives.map((drive) => {
-        this.state.drives.push(`${drive.device} (${drive.description})`);
+        // Display only non-system drives.
+        if (!drive.system) {
+          this.state.drives.push(`${drive.device} (${drive.description})`);
+        }
       });
-      if (drives.length > 0) {
-        this.setState({value: `${drives[0].device} (${drives[0].description})`})
+
+      // Select first drive by default.
+      if (this.state.drives.length > 0) {
+        this.setState({value: this.state.drives[0]})
       } else {
         this.setState({value: null})
       }
