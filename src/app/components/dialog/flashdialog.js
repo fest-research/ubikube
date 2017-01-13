@@ -2,12 +2,13 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
-import { extract7z} from './../../scripts/unzip'
 import { readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync } from 'fs'
-import { sync} from 'md5-file'
+import { normalize } from 'path'
+import { exec } from 'child_process'
+import { sync } from 'md5-file'
 import request from 'request'
 import progress from 'request-progress'
-import { write} from 'etcher-image-write'
+import { write } from 'etcher-image-write'
 
 export default class FlashDialog extends React.Component {
   constructor(props) {
@@ -24,15 +25,9 @@ export default class FlashDialog extends React.Component {
   }
 
   show(token, hostname, memoryCard) {
-    this.setState({
-      token: token,
-      hostname: hostname,
-      memoryCard: memoryCard,
-      open: true,
-      title: "[3/4] Flashing image..."
-    });
+    this.initState(token, hostname, memoryCard)
     new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
-      let image = readFileSync("image/config.json");
+      let image = readFileSync('image/config.json');
       image = JSON.parse(image);
       if (this.doesImageAlreadyExist(image)) {
         this.flashImage(image);
@@ -40,6 +35,16 @@ export default class FlashDialog extends React.Component {
         this.downloadImage(image);
       }
     })
+  }
+
+  initState(token, hostname, memoryCard) {
+    this.setState({
+      token: token,
+      hostname: hostname,
+      memoryCard: memoryCard.substr(0, memoryCard.indexOf(' ')),
+      open: true,
+      title: ''
+    });
   }
 
   setProgress(title, progressMode, progress) {
@@ -62,7 +67,7 @@ export default class FlashDialog extends React.Component {
       .on('error', err => console.log(err))
       .on('end', () => {
         this.setProgress('[2/4] Extracting image...', 'indeterminate')
-        extract7z('image/' + image.compressedFilename, 'image/', (err) => {
+        this.extractImage('image/' + image.compressedFilename, 'image/', (err) => {
           if (err !== null) {
             this.setState({open: false});
             return
@@ -73,14 +78,28 @@ export default class FlashDialog extends React.Component {
       .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
+  extractImage (archive, outputdir, callback) {
+    let binary
+    if (process.platform == 'darwin') {
+      binary = '"' + normalize(process.cwd() + '/bin/7z') + '"'
+    } else if (process.platform == 'win32') {
+      binary = '"' + normalize(process.cwd() + '/bin/7z.exe') + '"'
+    } else if (process.platform == 'linux') {
+      binary = '7za'
+    }
+    exec(binary + ' x -o"' + outputdir + '" "' + archive + '"', function (error, stdout, stderr) {
+      callback(error)
+    })
+  }
+
   flashImage(image) {
     this.setProgress('[3/4] Flashing image...', 'indeterminate')
     let filename = 'image/' + image.uncompressedFilename
 
-    console.log("asd");
+    console.log(this.state.memoryCard);
 
-    let sdWrite = write({
-      fd: openSync('/dev/sdb', 'rs+'), // '\\\\.\\PHYSICALDRIVE1' in Windows, for example.
+    write({
+      fd: openSync('/dev/sdb', 'rs+'),
       device: '/dev/sdb',
       size: statSync(filename).size
     }, {
@@ -88,20 +107,13 @@ export default class FlashDialog extends React.Component {
       size: statSync(filename).size
     }, {
       check: true
-    });
-
-    sdWrite.on('progress', function (state) {
+    }).on('progress', function (state) {
       console.log(state);
-    });
-
-    sdWrite.on('error', function (error) {
+    }).on('error', function (error) {
       console.error(error)
-    });
-
-    sdWrite.on('done', function (success) {
+    }).on('done', function (success) {
       console.log(success)
     });
-
     this.updateImage(image)
   }
 

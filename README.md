@@ -23,3 +23,5 @@ sudo env PATH="$PATH" npm start
 - Add `cloud-init` scripts after image flash.
 - Update progress bar on image flash.
 - Read fields before flash process (currently it's hardcoded).
+- Add validation.
+- Display detailed progress state.
