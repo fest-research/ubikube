@@ -17,8 +17,8 @@ sudo env PATH="$PATH" npm start
 
 ## Interface
 <p align="center">
-    <img src="assets/interface.png"/>
-    <img src="assets/progress.png"/>
+    <img src="assets/main-view.png"/>
+    <img src="assets/progress-view.png"/>
 </p>
 
 ## Possible enhancements

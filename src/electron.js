@@ -8,7 +8,7 @@ let mainWindow
 function createWindow () {
   mainWindow = new electron.BrowserWindow({
     width: 1000,
-    height: 700,
+    height: 560,
     resizable: false,
     frame: false,
     show: false,
@@ -21,7 +21,8 @@ function createWindow () {
     slashes: true
   }))
 
-  mainWindow.webContents.openDevTools()
+  // Uncomment to open developer tools.
+  // mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
