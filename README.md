@@ -22,7 +22,6 @@ sudo env PATH="$PATH" npm start
 - Add build files.
 - Move from CSS to SCSS.
 - Add `cloud-init` scripts after image flash.
-- Read fields before flash process (currently it's hardcoded).
 - Add validation.
 - Remove unnecessary dependencies from `package.json`.
 - Add file formatters.
