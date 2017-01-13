@@ -24,4 +24,3 @@ sudo env PATH="$PATH" npm start
 - Update progress bar on image flash.
 - Read fields before flash process (currently it's hardcoded).
 - Add validation.
-- Display detailed progress state.

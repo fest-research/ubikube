@@ -20,21 +20,20 @@ export default class FlashDialog extends React.Component {
       memoryCard: '',
       title: '',
       progress: 0,
-      progressMode: 'indeterminate'
+      progressMode: 'indeterminate',
+      description: ''
     };
   }
 
   show(token, hostname, memoryCard) {
     this.initState(token, hostname, memoryCard)
-    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
-      let image = readFileSync('image/config.json');
-      image = JSON.parse(image);
-      if (this.doesImageAlreadyExist(image)) {
-        this.flashImage(image);
-      } else {
-        this.downloadImage(image);
-      }
-    })
+    let image = readFileSync('image/config.json');
+    image = JSON.parse(image);
+    if (this.doesImageAlreadyExist(image)) {
+      this.flashImage(image);
+    } else {
+      this.downloadImage(image);
+    }
   }
 
   initState(token, hostname, memoryCard) {
@@ -47,38 +46,22 @@ export default class FlashDialog extends React.Component {
     });
   }
 
-  setProgress(title, progressMode, progress) {
-    this.setState({
-      title: title === null ? this.state.title : title,
-      progressMode: progressMode === null ? this.state.progressMode : progressMode,
-      progress: progress === null ? this.state.progress : progress
-    })
-  }
-
   doesImageAlreadyExist(image) {
     return existsSync('image/' + image.uncompressedFilename) &&
       sync('image/' + image.uncompressedFilename) === image.uncompressedMD5
   }
 
   downloadImage(image) {
-    this.setProgress('[1/4] Downloading image...', 'determinate', 0)
+    this.setProgress('Downloading image...', null, 'determinate', 0)
     progress(request(image.downloadUrl))
-      .on('progress', state => this.setProgress(null, null, state.percent * 100))
+      .on('progress', state => this.setProgress(null, null, null, state.percent * 100))
       .on('error', err => console.log(err))
-      .on('end', () => {
-        this.setProgress('[2/4] Extracting image...', 'indeterminate')
-        this.extractImage('image/' + image.compressedFilename, 'image/', (err) => {
-          if (err !== null) {
-            this.setState({open: false});
-            return
-          }
-          this.flashImage(image)
-        })
-      })
+      .on('end', () => this.extractImage(image))
       .pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
-  extractImage (archive, outputdir, callback) {
+  extractImage (image) {
+    this.setProgress('Extracting image...', null, 'indeterminate')
     let binary
     if (process.platform == 'darwin') {
       binary = '"' + normalize(process.cwd() + '/bin/7z') + '"'
@@ -87,17 +70,18 @@ export default class FlashDialog extends React.Component {
     } else if (process.platform == 'linux') {
       binary = '7za'
     }
-    exec(binary + ' x -o"' + outputdir + '" "' + archive + '"', function (error, stdout, stderr) {
-      callback(error)
+    exec(binary + ' x -o"image/" "image/' + image.compressedFilename + '"', (error, stdout, stderr) => {
+      if (error !== null) {
+        this.close();
+        return
+      }
+      this.flashImage(image)
     })
   }
 
   flashImage(image) {
-    this.setProgress('[3/4] Flashing image...', 'indeterminate')
+    this.setProgress('Flashing image...', null, 'determinate', 0)
     let filename = 'image/' + image.uncompressedFilename
-
-    console.log(this.state.memoryCard);
-
     write({
       fd: openSync('/dev/sdb', 'rs+'),
       device: '/dev/sdb',
@@ -107,18 +91,33 @@ export default class FlashDialog extends React.Component {
       size: statSync(filename).size
     }, {
       check: true
-    }).on('progress', function (state) {
-      console.log(state);
-    }).on('error', function (error) {
-      console.error(error)
-    }).on('done', function (success) {
+    }).on('progress', state => {
+      console.log(state)
+      this.setProgress(null, `Transferred ${state.transferred} from ${state.length}, ${state.eta} seconds left`, null, state.percentage)
+    }).on('error', error => {
+      console.log(error)
+      this.close();
+    }).on('done', success => {
       console.log(success)
+      this.updateImage(image);
     });
-    this.updateImage(image)
   }
 
   updateImage(image) {
-    this.setProgress('[4/4] Updating image...', 'indeterminate')
+    this.setProgress('Updating image...', null, 'indeterminate');
+    this.close();
+  }
+
+  setProgress(title, description, progressMode, progress) {
+    this.setState({
+      title: title === null ? this.state.title : title,
+      description: description === null ? this.state.description : description,
+      progressMode: progressMode === null ? this.state.progressMode : progressMode,
+      progress: progress === null ? this.state.progress : progress
+    })
+  }
+
+  close() {
     this.setState({open: false});
   }
 
@@ -130,6 +129,8 @@ export default class FlashDialog extends React.Component {
                 open={this.state.open}>
           <LinearProgress mode={this.state.progressMode}
                           value={this.state.progress}/>
+          <br/>
+          <span className='uk-dialog-description'>{this.state.description}</span>
         </Dialog>
       </div>
     );
