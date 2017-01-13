@@ -13,42 +13,50 @@ import { write } from 'etcher-image-write'
 
 export default class ProgressDialog extends React.Component {
   constructor(props) {
+    // Init state.
     super(props);
     this.state = {
       open: false,
-      token: '',
-      hostname: '',
-      memoryCard: '',
       title: '',
       progress: 0,
       progressMode: 'indeterminate',
       description: ''
     };
+
+    // Device to flash.
+    this.device = ''
+
+    // Token.
+    this.token = ''
+
+    // Hostname.
+    this.hostname = ''
   }
 
-  show(token, hostname, memoryCard) {
-    this.initState(token, hostname, memoryCard)
+  show(token, hostname, device) {
+    this.init(token, hostname, device)
     let image = readFileSync('image/config.json');
     image = JSON.parse(image);
-    if (this.doesImageAlreadyExist(image)) {
+    if (this.isImageDownloaded(image)) {
       this.flashImage(image);
     } else {
       this.downloadImage(image);
     }
   }
 
-  initState(token, hostname, memoryCard) {
-    this.setState({
-      token: token,
-      hostname: hostname,
-      memoryCard: memoryCard.substr(0, memoryCard.indexOf(' ')),
-      open: true,
-      title: '',
-      description: ''
-    });
+  init(token, hostname, device) {
+    this.token = token;
+    this.hostname = hostname;
+    this.device = device.substr(0, device.indexOf(' '));
+
+    // Init state everytime.
+    this.state.open = true;
+    this.state.title = '';
+    this.state.description = '';
+    this.setState(this.state)
   }
 
-  doesImageAlreadyExist(image) {
+  isImageDownloaded(image) {
     return existsSync('image/' + image.uncompressedFilename) &&
       sync('image/' + image.uncompressedFilename) === image.uncompressedMD5
   }
@@ -90,8 +98,8 @@ export default class ProgressDialog extends React.Component {
     this.setProgress('Flashing image...', null, 'determinate', 0)
     let filename = 'image/' + image.uncompressedFilename
     write({
-      fd: openSync('/dev/sdb', 'rs+'),
-      device: '/dev/sdb',
+      fd: openSync(this.device, 'rs+'),
+      device: this.device,
       size: statSync(filename).size
     }, {
       stream: createReadStream(filename),
