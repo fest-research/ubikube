@@ -54,12 +54,12 @@ html, body {
 
 /* Input */
 
-.uk-text-field {
+.uk-input {
   flex: 0 1 auto;
   align-self: center;
 }
 
-.uk-input {
+.uk-input-container {
   display: flex;
 }
 
