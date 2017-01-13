@@ -25,7 +25,7 @@ sudo env PATH="$PATH" npm start
 
 - Use `electron-compile` or other tool for building (SCSS and JS)?
 - Remove unnecessary dependencies from `package.json`.
-- Add file formatters.
+- Update file formatter to match app style.
 - Add validation.
 - Update image after flashing it.
 - Add `npm` module to run in `sudo` mode.
