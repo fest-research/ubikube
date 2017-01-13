@@ -1,8 +1,7 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { white } from 'material-ui/styles/colors';
-import { grey500 } from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { white, grey500 } from 'material-ui/styles/colors'
 
-const red = '#C80000';
+const red = '#C80000'
 
 export const mainTheme = getMuiTheme({
   toolbar: {
@@ -18,4 +17,4 @@ export const mainTheme = getMuiTheme({
   raisedButton: {
     secondaryTextColor: white
   }
-});
+})

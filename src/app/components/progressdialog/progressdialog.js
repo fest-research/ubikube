@@ -1,6 +1,6 @@
-import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import LinearProgress from 'material-ui/LinearProgress';
+import React from 'react'
+import Dialog from 'material-ui/Dialog'
+import LinearProgress from 'material-ui/LinearProgress'
 
 import { readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync } from 'fs'
 import { normalize } from 'path'
@@ -12,16 +12,16 @@ import progress from 'request-progress'
 import { write } from 'etcher-image-write'
 
 export default class ProgressDialog extends React.Component {
-  constructor(props) {
+  constructor (props) {
     // Init state.
-    super(props);
+    super(props)
     this.state = {
       open: false,
       title: '',
       progress: 0,
       progressMode: 'indeterminate',
       description: ''
-    };
+    }
 
     // Device to flash.
     this.device = ''
@@ -33,50 +33,50 @@ export default class ProgressDialog extends React.Component {
     this.hostname = ''
 
     // Operating system image configuration (can be loaded only once).
-    this.imageConfig = readFileSync('image/config.json');
-    this.imageConfig = JSON.parse(this.imageConfig);
+    this.imageConfig = readFileSync('image/config.json')
+    this.imageConfig = JSON.parse(this.imageConfig)
   }
 
-  show(token, hostname, device) {
+  show (token, hostname, device) {
     // Init state everytime dialog is shown.
     this.init(token, hostname, device)
 
     // If image is already downloaded procees to image flashing, if not start
     // with image download and extraction.
     if (this.isImageDownloaded()) {
-      this.flashImage();
+      this.flashImage()
     } else {
-      this.downloadImage();
+      this.downloadImage()
     }
   }
 
-  init(token, hostname, device) {
-    this.token = token;
-    this.hostname = hostname;
-    this.device = device.substr(0, device.indexOf(' '));
-    this.state.open = true;
-    this.state.title = '';
-    this.state.description = '';
+  init (token, hostname, device) {
+    this.token = token
+    this.hostname = hostname
+    this.device = device.substr(0, device.indexOf(' '))
+    this.state.open = true
+    this.state.title = ''
+    this.state.description = ''
     this.setState(this.state)
   }
 
-  isImageDownloaded() {
+  isImageDownloaded () {
     // Checks if image is in directory and verifies is MD5 checksum.
     return existsSync('image/' + this.imageConfig.uncompressedFilename) &&
       sync('image/' + this.imageConfig.uncompressedFilename) === this.imageConfig.uncompressedMD5
   }
 
-  downloadImage() {
+  downloadImage () {
     this.setProgress('Downloading image...', null, 'determinate', 0)
     progress(request(this.imageConfig.downloadUrl))
       .on('progress', state => {
-        console.log(state);
-        this.setProgress(null, `${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100);
+        console.log(state)
+        this.setProgress(null, `${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100)
       }).on('error', err => {
-        console.log(err);
-        this.close();
+        console.log(err)
+        this.close()
       }).on('end', () => {
-        this.extractImage();
+        this.extractImage()
       }).pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
   }
 
@@ -92,14 +92,14 @@ export default class ProgressDialog extends React.Component {
     }
     exec(binary + ' x -o"image/" "image/' + this.imageConfig.compressedFilename + '"', (error, stdout, stderr) => {
       if (error !== null) {
-        this.close();
+        this.close()
         return
       }
       this.flashImage()
     })
   }
 
-  flashImage() {
+  flashImage () {
     this.setProgress('Flashing image...', null, 'determinate', 0)
     let filename = 'image/' + this.imageConfig.uncompressedFilename
     write({
@@ -112,24 +112,24 @@ export default class ProgressDialog extends React.Component {
     }, {
       check: true
     }).on('progress', state => {
-      console.log(state);
+      console.log(state)
       this.setProgress(null, `Transferred ${prettyBytes(state.transferred)} from ${prettyBytes(state.length)}, ${state.eta} seconds left`, null, state.percentage)
     }).on('error', error => {
-      console.log(error);
-      this.close();
+      console.log(error)
+      this.close()
     }).on('done', success => {
-      console.log(success);
+      console.log(success)
       this.setProgress(null, `Data successfully transferred, checksum ${success.sourceChecksum}`, null, 100)
-      this.updateImage();
-    });
+      this.updateImage()
+    })
   }
 
-  updateImage() {
-    this.setProgress('Updating image...', null, 'indeterminate', undefined);
-    this.close();
+  updateImage () {
+    this.setProgress('Updating image...', null, 'indeterminate', undefined)
+    this.close()
   }
 
-  setProgress(title, description, progressMode, progress) {
+  setProgress (title, description, progressMode, progress) {
     this.setState({
       title: title === null ? this.state.title : title,
       description: description === null ? this.state.description : description,
@@ -138,11 +138,11 @@ export default class ProgressDialog extends React.Component {
     })
   }
 
-  close() {
-    this.setState({open: false});
+  close () {
+    this.setState({open: false})
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Dialog title={this.state.title}
@@ -156,6 +156,6 @@ export default class ProgressDialog extends React.Component {
           </span>
         </Dialog>
       </div>
-    );
+    )
   }
 }

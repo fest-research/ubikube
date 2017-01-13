@@ -1,11 +1,9 @@
-'use strict';
-
-const electron = require('electron');
-const app = electron.app;
+const electron = require('electron')
+const app = electron.app
 const url = require('url')
 const path = require('path')
 
-let mainWindow;
+let mainWindow
 
 function createWindow () {
   mainWindow = new electron.BrowserWindow({
@@ -15,35 +13,35 @@ function createWindow () {
     frame: false,
     show: false,
     titleBarStyle: 'hidden'
-  });
+  })
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app/index.html'),
     protocol: 'file:',
-    slashes: true,
-  }));
+    slashes: true
+  }))
 
-  mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools()
 
-  mainWindow.on('closed', function() {
-    mainWindow = null;
-  });
+  mainWindow.on('closed', () => {
+    mainWindow = null
+  })
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-  });
+  })
 }
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
-app.on('activate', function () {
+app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow();
+    createWindow()
   }
-});
+})

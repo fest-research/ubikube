@@ -1,27 +1,27 @@
-import React from 'react';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import React from 'react'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import Tip from '../tip/tip'
 import { list } from 'drivelist'
 
 export default class DriveSelector extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     // Initialize state.
     this.state = {
       value: null,
       drives: []
-    };
+    }
 
     // Load list of available devices.
     list((error, drives) => {
       drives.map((drive) => {
         // Use only non-system drives.
         if (!drive.system) {
-          this.state.drives.push(`${drive.device} (${drive.description})`);
+          this.state.drives.push(`${drive.device} (${drive.description})`)
         }
-      });
+      })
 
       // Select first drive by default if there are any.
       if (this.state.drives.length > 0) {
@@ -29,25 +29,25 @@ export default class DriveSelector extends React.Component {
       } else {
         this.setState({value: null})
       }
-    });
+    })
 
     this._handleChange = this._handleChange.bind(this)
   }
 
-  getValue() {
-    return this.state.value;
+  getValue () {
+    return this.state.value
   }
 
-  _handleChange(event, index, value) {
+  _handleChange (event, index, value) {
     this.setState({value: value})
   }
 
-  render() {
-    let items = [];
-    var index = 0;
+  render () {
+    let items = []
+    var index = 0
     for (var item of this.state.drives) {
-      items.push(<MenuItem key={index} value={item} primaryText={item}/>);
-      index++;
+      items.push(<MenuItem key={index} value={item} primaryText={item}/>)
+      index++
     }
 
     return <div className='uk-selector-container'>
