@@ -5,7 +5,7 @@ Electron app flashing card images.
 Just run:
 
 ```
-git clone git@github.com:maciaszczykm/ubikube.git
+git clone https://github.com/fest-research/ubikube.git
 cd ubikube
 npm i
 sudo env PATH="$PATH" npm start
