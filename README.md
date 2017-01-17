@@ -1,5 +1,5 @@
 # Ubikube
-Electron app flashing card images.
+Flashing memory cards for microcontrollers.
 
 ## Setup
 Just run:
