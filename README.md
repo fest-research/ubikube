@@ -1,5 +1,5 @@
 # Ubikube
-Flashing memory cards for microcontrollers.
+Application flashing cards for microcontrollers.
 
 ## Setup
 Just run:
