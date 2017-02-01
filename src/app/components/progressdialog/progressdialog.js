@@ -77,7 +77,7 @@ export default class ProgressDialog extends React.Component {
         this.close()
       }).on('end', () => {
         this.extractImage()
-      }).pipe(createWriteStream('image/raspbian-lite-pibakery.7z'))
+      }).pipe(createWriteStream('image/hypriotos-rpi-dirty.img.zip'))
   }
 
   extractImage () {

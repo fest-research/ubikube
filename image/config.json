@@ -1,11 +1,11 @@
 {
-		"name": "Raspbian Lite",
-		"version": 2.0,
-		"compressedMD5": "a15db1674ef12dbdf18754b09eb39350",
-		"uncompressedMD5": "93077033522fd49e9b0efa7f75f91407",
-		"downloadUrl": "https://github.com/davidferguson/pibakery-raspbian/releases/download/v0.2.0/raspbian-lite-pibakery.7z",
-		"uncompressedSize": 1389363200,
-		"filename": "raspbian-lite-pibakery.img",
-		"compressedFilename": "raspbian-lite-pibakery.7z",
-		"uncompressedFilename": "raspbian-lite-pibakery-new.img"
+                "name": "HypriotOS",
+                "version": 1.0,
+                "compressedMD5": "e7964d844a1ba00d5aba81b80e94f1ee",
+                "uncompressedMD5": "838a9a865dc2717d7219b12391d9fbd2",
+                "downloadUrl": "https://github.com/fest-research/image-builder-rpi/releases/download/v1.2.1/hypriotos-rpi-dirty.img.zip",
+                "uncompressedSize": 1363148800,
+                "filename": "hypriotos-rpi-dirty.img",
+                "compressedFilename": "hypriotos-rpi-dirty.img.zip",
+                "uncompressedFilename": "hypriotos-rpi-dirty.img"
 }
