@@ -1,8 +1,8 @@
 {
                 "name": "HypriotOS",
                 "version": 1.0,
-                "compressedMD5": "e7964d844a1ba00d5aba81b80e94f1ee",
-                "uncompressedMD5": "838a9a865dc2717d7219b12391d9fbd2",
+                "compressedMD5": "6cc979d3a15ae9982d654d04122020a0",
+                "uncompressedMD5": "0a5d598744f51ff74d3e70660569f3ab",
                 "downloadUrl": "https://github.com/fest-research/image-builder-rpi/releases/download/v1.2.1/hypriotos-rpi-dirty.img.zip",
                 "uncompressedSize": 1363148800,
                 "filename": "hypriotos-rpi-dirty.img",
