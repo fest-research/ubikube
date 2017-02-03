@@ -4,12 +4,13 @@ import LinearProgress from 'material-ui/LinearProgress'
 
 import { readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync } from 'fs'
 import { normalize } from 'path'
-import { exec } from 'child_process'
+import { exec, execSync } from 'child_process'
 import { sync } from 'md5-file'
 import prettyBytes from 'pretty-bytes'
 import request from 'request'
 import progress from 'request-progress'
 import { write } from 'etcher-image-write'
+import { umount } from 'umount'
 
 export default class ProgressDialog extends React.Component {
   constructor (props) {
@@ -22,6 +23,15 @@ export default class ProgressDialog extends React.Component {
       progressMode: 'indeterminate',
       description: ''
     }
+
+    // Image directory.
+    this.imageDir = 'image/'
+
+    // Device init file.
+    this.deviceInit = `${this.imageDir}device-init.yaml`
+
+    // Temporary mount path.
+    this.tempMount = '/tmp/ubikube/'
 
     // Device to flash.
     this.device = ''
@@ -70,10 +80,9 @@ export default class ProgressDialog extends React.Component {
     this.setProgress('Downloading image...', null, 'determinate', 0)
     progress(request(this.imageConfig.downloadUrl))
       .on('progress', state => {
-        console.log(state)
-        this.setProgress(null, `${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100)
-      }).on('error', err => {
-        console.log(err)
+        this.setProgress(null, `Downloaded ${prettyBytes(state.size.transferred)} from ${prettyBytes(state.size.total)}, ${prettyBytes(state.speed | 0)} per second, ${state.time.remaining} seconds left`, null, state.percent * 100)
+      }).on('error', error => {
+        console.log(error)
         this.close()
       }).on('end', () => {
         this.extractImage()
@@ -93,43 +102,72 @@ export default class ProgressDialog extends React.Component {
     exec(binary + ' x -o"image/" "image/' + this.imageConfig.compressedFilename + '"', (error, stdout, stderr) => {
       if (error !== null) {
         this.close()
-        return
+      } else {
+        this.flashImage()
       }
-      this.flashImage()
     })
   }
 
   flashImage () {
     this.setProgress('Flashing image...', null, 'determinate', 0)
-    let filename = 'image/' + this.imageConfig.uncompressedFilename
-    write({
-      fd: openSync(this.device, 'rs+'),
-      device: this.device,
-      size: statSync(filename).size
-    }, {
-      stream: createReadStream(filename),
-      size: statSync(filename).size
-    }, {
-      check: true
-    }).on('progress', state => {
-      console.log(state)
-      this.setProgress(null, `Transferred ${prettyBytes(state.transferred)} from ${prettyBytes(state.length)}, ${state.eta} seconds left`, null, state.percentage)
-    }).on('error', error => {
-      console.log(error)
-      this.close()
-    }).on('done', success => {
-      console.log(success)
-      this.setProgress(null, `Data successfully transferred, checksum ${success.sourceChecksum}`, null, 100)
-      this.updateImage()
-    })
+    umount(this.device, (error, stdout, stderr) => {
+         if (error) {
+           console.error(error)
+         } else {
+           let filename = 'image/' + this.imageConfig.uncompressedFilename
+           write({
+             fd: openSync(this.device, 'rs+'),
+             device: this.device,
+             size: statSync(filename).size
+           }, {
+             stream: createReadStream(filename),
+             size: statSync(filename).size
+           }, {
+             check: true
+           }).on('progress', state => {
+             this.setProgress(null, `Transferred ${prettyBytes(state.transferred)} from ${prettyBytes(state.length)}, ${state.eta} seconds left`, null, state.percentage)
+           }).on('error', error => {
+             console.log(error)
+             this.close()
+           }).on('done', success => {
+             this.setProgress(null, `Data successfully transferred, checksum ${success.sourceChecksum}`, null, 100)
+             this.updateImage()
+           })
+         }
+       })
   }
 
   updateImage () {
     this.setProgress('Updating image...', null, 'indeterminate', undefined)
-    this.close()
+    this.mount()
+    createReadStream(this.deviceInit).on("error", error => {
+      console.log(error);
+      this.unmount()
+      this.close()
+    }).pipe(createWriteStream(`${this.tempMount}/device-init.yaml`).on("error", error => {
+      console.log(error);
+      this.unmount()
+      this.close()
+    }).on("close", () => {
+      console.log("Successfully finished process!")
+      this.unmount()
+      this.close()
+    }));
+  }
+
+  mount() {
+    console.log(`Mounting ${this.device}1 at ${this.tempMount}`);
+    execSync(`mkdir -p ${this.tempMount}`, {stdio: [null, null, null]})
+    execSync(`mount ${this.device}1 ${this.tempMount}`, {stdio: [null, null, null]})
+  }
+
+  unmount() {
+    console.log(`Unmounting ${this.tempMount}`);
+    execSync(`umount ${this.tempMount}`, {stdio: [null, null, null]})
   }
 
   setProgress (title, description, progressMode, progress) {
+    console.log(`${title} - ${description}`)
     this.setState({
       title: title === null ? this.state.title : title,
       description: description === null ? this.state.description : description,
@@ -139,6 +177,7 @@ export default class ProgressDialog extends React.Component {
   }
 
   close () {
+    console.log("Closing progress dialog")
     this.setState({open: false})
   }
 
