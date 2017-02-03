@@ -8,7 +8,8 @@ export default class Input extends React.Component {
              <TextField className='uk-input'
                         hintText={this.props.hintText}
                         fullWidth={true}
-                        ref={this.props.inputRef}/>
+                        ref={this.props.inputRef}
+                        onChange={this.props.onChange}/>
              <Tip text={this.props.tipText}/>
            </div>
   }

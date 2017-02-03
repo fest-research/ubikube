@@ -9,45 +9,58 @@ import Toolbar from './components/toolbar/toolbar'
 import Input from './components/input/input'
 import ProgressDialog from './components/progressdialog/progressdialog'
 
-import { list } from 'drivelist'
-import { mainTheme } from './themes'
+import {list} from 'drivelist'
+import {mainTheme} from './themes'
 
 export default class Ubikube extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       showAdvanced: false,
       advancedLabel: 'Show more options',
       drives: [],
-      systems: []
+      systems: [],
+      isFlashEnabled: false
     }
 
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this)
     this._handleSubmit = this._handleSubmit.bind(this)
+    this._onHostnameChange = this._onHostnameChange.bind(this)
   }
 
-  _switchAdvancedSectionVisibility () {
+  _switchAdvancedSectionVisibility() {
     this.setState({
       showAdvanced: !this.state.showAdvanced,
       advancedLabel: this.state.advancedLabel === 'Show more options' ? 'Show less options' : 'Show more options'
     })
   }
 
-  _handleSubmit (e) {
+  _handleSubmit(e) {
+    let ssid = this.ssidField ? this.ssidField.getValue() : ''
+    let password = this.passwordField ? this.passwordField.getValue() : ''
+
     e.preventDefault()
     this.refs.progressDialog.show(this.tokenField.getValue(),
-      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue())
+      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue(), ssid, password)
   }
 
-  render () {
+  _onHostnameChange(e, newValue) {
+    this.setState({
+      isFlashEnabled: newValue.length > 0
+    })
+  }
+
+  render() {
     const showAdvanced = this.state.showAdvanced
     let advancedSection
 
     if (showAdvanced) {
       advancedSection = <Paper zDepth={0}>
         <h2>Wireless network</h2>
-        <Input hintText="SSID" tipText="Name of the wireless network."/>
-        <Input hintText="Password" tipText="Password of the wireless network."/>
+        <Input hintText="SSID" tipText="Name of the wireless network."
+               inputRef={node => this.ssidField = node}/>
+        <Input hintText="Password" tipText="Password of the wireless network."
+               inputRef={node => this.passwordField = node}/>
       </Paper>
     }
 
@@ -69,6 +82,7 @@ export default class Ubikube extends React.Component {
                    inputRef={node => this.tokenField = node}
                    tipText="Cluster's API server token."/>
             <Input hintText="Hostname"
+                   onChange={this._onHostnameChange}
                    inputRef={node => this.hostnameField = node}
                    tipText="Hostname of the device which will use flashed memory card."/>
             {advancedSection}
@@ -80,6 +94,7 @@ export default class Ubikube extends React.Component {
             <RaisedButton className='uk-submit-button'
                           label="Flash"
                           type="submit"
+                          disabled={!this.state.isFlashEnabled}
                           secondary={true}/>
           </form>
           <ProgressDialog ref="progressDialog"/>
