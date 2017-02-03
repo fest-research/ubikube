@@ -165,7 +165,7 @@ export default class ProgressDialog extends React.Component {
 
   getDeviceConfig() {
     let config = {
-      hostname: this.hostname,
+      hostname: `${this.hostname}-${this.generateSuffix()}`
     }
 
     if (this.ssid.length > 0) {
@@ -180,6 +180,13 @@ export default class ProgressDialog extends React.Component {
     }
 
     return config
+  }
+
+  generateSuffix(len) {
+    let m = len || 5;
+    let s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i=0; i < m; i++) { s += r.charAt(Math.floor(Math.random()*r.length)); }
+    return s;
   }
 
   mount() {
