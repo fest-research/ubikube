@@ -150,28 +150,17 @@ export default class ProgressDialog extends React.Component {
   updateImage() {
     this.setProgress('Updating image...', null, 'indeterminate', undefined)
 
+    // Mount device.
     this.mount()
 
-    let deviceConfig = this.getDeviceConfig()
-    writeYaml.sync(`${this.tempMount}/device-init.yaml`, deviceConfig)
+    // Update device initial configuration.
+    writeYaml.sync(`${this.tempMount}/device-init.yaml`, this.getDeviceConfig())
 
+    // Unmount device.
     this.unmount()
-    this.close()
 
-    // createReadStream(this.deviceInit).on("error", error => {
-    //   console.log(error);
-    //   this.unmount()
-    //   this.close()
-    //   // TODO use pipe to update yaml config
-    // }).pipe(createWriteStream(`${this.tempMount}/device-init.yaml`).on("error", error => {
-    //   console.log(error);
-    //   this.unmount()
-    //   this.close()
-    // }).on("close", () => {
-    //   console.log("Successfully finished process!")
-    //   this.unmount()
-    //   this.close()
-    // }));
+    console.log("Successfully finished process!")
+    this.close()
   }
 
   getDeviceConfig() {
