@@ -78,13 +78,13 @@ export default class Ubikube extends React.Component {
             <DriveSelector label="Memory card"
                            tipText="Memory card to be flashed."
                            ref="memoryCardSelect"/>
-            <Input hintText="Token"
+            <Input hintText="Device registration code"
                    inputRef={node => this.tokenField = node}
-                   tipText="Cluster's API server token."/>
-            <Input hintText="Hostname"
+                   tipText="You can find this code printed on the device."/>
+            <Input hintText="Device name"
                    onChange={this._onHostnameChange}
                    inputRef={node => this.hostnameField = node}
-                   tipText="Hostname of the device which will use flashed memory card."/>
+                   tipText="Name to easily identify the device."/>
             {advancedSection}
             <FlatButton className='uk-advanced-button'
                         label={this.state.advancedLabel}
