@@ -5,6 +5,7 @@ Application flashing cards for microcontrollers.
 Just run:
 
 ```
+sudo apt-get install p7zip-full
 git clone https://github.com/fest-research/ubikube.git
 cd ubikube
 npm i
