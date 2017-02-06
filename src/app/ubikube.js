@@ -66,15 +66,12 @@ export default class Ubikube extends React.Component {
 
     return <MuiThemeProvider muiTheme={mainTheme}>
       <div className='uk-root'>
-        <Toolbar title="Ubikube"/>
+        <Toolbar title="Device Setup"/>
         <Paper className='uk-card'
                zDepth={0}
                children={this.props.children}>
           <form onSubmit={this._handleSubmit}
                 className='uk-flex-container'>
-            <h2 className='uk-card-header'>
-              Setup
-            </h2>
             <DriveSelector label="Memory card"
                            tipText="Memory card to be flashed."
                            ref="memoryCardSelect"/>
