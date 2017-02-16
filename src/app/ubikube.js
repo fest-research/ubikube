@@ -39,9 +39,12 @@ export default class Ubikube extends React.Component {
     let ssid = this.ssidField ? this.ssidField.getValue() : ''
     let password = this.passwordField ? this.passwordField.getValue() : ''
 
+    let IOTServerIP = this.IOTServerIPFiled ? this.IOTServerIPFiled.getValue() : ''
+    let IOTPort = this.IOTPortField ? this.IOTPortField.getValue() : ''
+
     e.preventDefault()
     this.refs.progressDialog.show(this.tokenField.getValue(),
-      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue(), ssid, password)
+      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue(), ssid, password, IOTServerIP, IOTPort)
   }
 
   _onHostnameChange(e, newValue) {
@@ -61,6 +64,11 @@ export default class Ubikube extends React.Component {
                inputRef={node => this.ssidField = node}/>
         <Input hintText="Password" tipText="Password of the wireless network."
                inputRef={node => this.passwordField = node}/>
+        <h2>IOT-Server details</h2>
+        <Input hintText="IP address" tipText="IP address of the IOT server devices will be connecting to."
+               inputRef={node => this.IOTServerIPFiled = node}/>
+        <Input hintText="Port number" tipText="Port number of the IOT server."
+               inputRef={node => this.IOTPortField = node}/>
       </Paper>
     }
 

@@ -2,20 +2,20 @@ import React from 'react'
 import Dialog from 'material-ui/Dialog'
 import LinearProgress from 'material-ui/LinearProgress'
 
-import {readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync} from 'fs'
-import {normalize} from 'path'
-import {exec, execSync} from 'child_process'
-import {sync} from 'md5-file'
+import { readFileSync, createWriteStream, existsSync, statSync, createReadStream, openSync, appendFile } from 'fs'
+import { normalize } from 'path'
+import { exec, execSync } from 'child_process'
+import { sync } from 'md5-file'
 import prettyBytes from 'pretty-bytes'
 import request from 'request'
 import progress from 'request-progress'
-import {write} from 'etcher-image-write'
-import {umount} from 'umount'
+import { write } from 'etcher-image-write'
+import { umount } from 'umount'
 import readYaml from 'js-yaml'
 import writeYaml from 'write-yaml'
 
 export default class ProgressDialog extends React.Component {
-  constructor(props) {
+  constructor (props) {
     // Init state.
     super(props)
     this.state = {
@@ -50,14 +50,20 @@ export default class ProgressDialog extends React.Component {
     // WiFi network password
     this.password = ''
 
+    // IOT Server IP
+    this.IOTServerIP = ''
+
+    // IOT Port number
+    this.IOTPort = ''
+
     // Operating system image configuration (can be loaded only once).
     this.imageConfig = readFileSync('image/config.json')
     this.imageConfig = JSON.parse(this.imageConfig)
   }
 
-  show(token, hostname, device, ssid, password) {
+  show (token, hostname, device, ssid, password, IOTServerIP, IOTPort) {
     // Init state everytime dialog is shown.
-    this.init(token, hostname, device, ssid, password)
+    this.init(token, hostname, device, ssid, password, IOTServerIP, IOTPort)
 
     // If image is already downloaded procees to image flashing, if not start
     // with image download and extraction.
@@ -68,25 +74,27 @@ export default class ProgressDialog extends React.Component {
     }
   }
 
-  init(token, hostname, device, ssid, password) {
+  init (token, hostname, device, ssid, password, IOTServerIP, IOTPort) {
     this.token = token
     this.hostname = hostname
     this.device = device.substr(0, device.indexOf(' '))
     this.ssid = ssid
     this.password = password
+    this.IOTPort = IOTPort
+    this.IOTServerIP = IOTServerIP
     this.state.open = true
     this.state.title = ''
     this.state.description = ''
     this.setState(this.state)
   }
 
-  isImageDownloaded() {
+  isImageDownloaded () {
     // Checks if image is in directory and verifies is MD5 checksum.
     return existsSync('image/' + this.imageConfig.uncompressedFilename) &&
       sync('image/' + this.imageConfig.uncompressedFilename) === this.imageConfig.uncompressedMD5
   }
 
-  downloadImage() {
+  downloadImage () {
     this.setProgress('Downloading image...', null, 'determinate', 0)
     progress(request(this.imageConfig.downloadUrl))
       .on('progress', state => {
@@ -99,7 +107,7 @@ export default class ProgressDialog extends React.Component {
     }).pipe(createWriteStream('image/' + this.imageConfig.compressedFilename))
   }
 
-  extractImage() {
+  extractImage () {
     this.setProgress('Extracting image...', null, 'indeterminate', undefined)
     let binary
     if (process.platform == 'darwin') {
@@ -118,7 +126,7 @@ export default class ProgressDialog extends React.Component {
     })
   }
 
-  flashImage() {
+  flashImage () {
     this.setProgress('Flashing image...', null, 'determinate', 0)
     umount(this.device, (error) => {
       if (error) {
@@ -147,7 +155,7 @@ export default class ProgressDialog extends React.Component {
     })
   }
 
-  updateImage() {
+  updateImage () {
     this.setProgress('Updating image...', null, 'indeterminate', undefined)
 
     // Mount device.
@@ -159,14 +167,43 @@ export default class ProgressDialog extends React.Component {
     // Unmount device.
     this.unmount()
 
-    console.log("Successfully finished process!")
+    console.log('Successfully finished process!')
     this.close()
   }
 
-  getDeviceConfig() {
-    let config = {
-      hostname: `${this.hostname}-${this.generateSuffix()}`
+  // sed command to insert iot-server ip:port into device-init.yal
+  getCMDToExecute () {
+    let file = ' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf"',
+      pre = '"sed -i \'s/IOT_IP_ADDRESS:PORT/',
+      post = '/\''
+    let defaultIOTServerIP = '104.155.11.172', defaultIOTPort = '8085', iotServerIpPort = ''
+
+    if (this.IOTServerIP.length > 0) {
+      iotServerIpPort = `${this.IOTServerIP}`
+    } else {
+      iotServerIpPort = defaultIOTServerIP
     }
+
+    iotServerIpPort.concat(':')
+
+    if (this.IOTPort.length > 0) {
+      iotServerIpPort.concat(`${this.IOTPort}`)
+    } else {
+      iotServerIpPort.concat(defaultIOTPort)
+    }
+
+    return pre.concat(iotServerIpPort).concat(post).concat(file)
+  }
+
+  getDeviceConfig () {
+    let config = {
+      hostname: `${this.hostname}-${this.generateSuffix()}`,
+      runcmd: [this.getCMDToExecute()],
+      runcmd1: [`${this.getCMDToExecute()}`],
+      runcmd3: ['"0.10"', '"0.11"']
+    }
+
+    config.runcmd4 = ["sed -i 's/IOT_IP_ADDRESS:PORT/127.0.0.1/' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf"]
 
     if (this.ssid.length > 0) {
       config.wifi = {
@@ -182,25 +219,25 @@ export default class ProgressDialog extends React.Component {
     return config
   }
 
-  generateSuffix(len) {
-    let m = len || 5;
-    let s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i=0; i < m; i++) { s += r.charAt(Math.floor(Math.random()*r.length)); }
-    return s;
+  generateSuffix (len) {
+    let m = len || 5
+    let s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = 0; i < m; i++) { s += r.charAt(Math.floor(Math.random() * r.length)) }
+    return s
   }
 
-  mount() {
-    console.log(`Mounting ${this.device}1 at ${this.tempMount}`);
+  mount () {
+    console.log(`Mounting ${this.device}1 at ${this.tempMount}`)
     execSync(`mkdir -p ${this.tempMount}`, {stdio: [null, null, null]})
     execSync(`mount ${this.device}1 ${this.tempMount}`, {stdio: [null, null, null]})
   }
 
-  unmount() {
-    console.log(`Unmounting ${this.tempMount}`);
+  unmount () {
+    console.log(`Unmounting ${this.tempMount}`)
     execSync(`umount ${this.tempMount}`, {stdio: [null, null, null]})
   }
 
-  setProgress(title, description, progressMode, progress) {
+  setProgress (title, description, progressMode, progress) {
     console.log(`${title} - ${description}`)
     this.setState({
       title: title === null ? this.state.title : title,
@@ -210,12 +247,12 @@ export default class ProgressDialog extends React.Component {
     })
   }
 
-  close() {
-    console.log("Closing progress dialog")
+  close () {
+    console.log('Closing progress dialog')
     this.setState({open: false})
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Dialog title={this.state.title}
