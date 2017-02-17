@@ -8,7 +8,7 @@ let mainWindow
 function createWindow () {
   mainWindow = new electron.BrowserWindow({
     width: 1000,
-    height: 560,
+    height: 680,
     resizable: false,
     frame: false,
     show: false,

@@ -23,6 +23,9 @@ export default class Ubikube extends React.Component {
       isFlashEnabled: false
     }
 
+    this.iotAPIServerAddr = "104.155.11.172";
+    this.iotAPIServerPort = "8085";
+
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this)
     this._handleSubmit = this._handleSubmit.bind(this)
     this._onHostnameChange = this._onHostnameChange.bind(this)
@@ -39,12 +42,13 @@ export default class Ubikube extends React.Component {
     let ssid = this.ssidField ? this.ssidField.getValue() : ''
     let password = this.passwordField ? this.passwordField.getValue() : ''
 
-    let IOTServerIP = this.IOTServerIPFiled ? this.IOTServerIPFiled.getValue() : ''
-    let IOTPort = this.IOTPortField ? this.IOTPortField.getValue() : ''
+    this.iotAPIServerAddr = this.IOTServerIPField ? this.IOTServerIPField.getValue() : this.iotAPIServerAddr
+    this.iotAPIServerPort = this.IOTPortField ? this.IOTPortField.getValue() : this.iotAPIServerPort
 
     e.preventDefault()
     this.refs.progressDialog.show(this.tokenField.getValue(),
-      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue(), ssid, password, IOTServerIP, IOTPort)
+      this.hostnameField.getValue(), this.refs.memoryCardSelect.getValue(), ssid, password,
+      this.iotAPIServerAddr, this.iotAPIServerPort)
   }
 
   _onHostnameChange(e, newValue) {
@@ -64,11 +68,11 @@ export default class Ubikube extends React.Component {
                inputRef={node => this.ssidField = node}/>
         <Input hintText="Password" tipText="Password of the wireless network."
                inputRef={node => this.passwordField = node}/>
-        <h2>IOT-Server details</h2>
-        <Input hintText="IP address" tipText="IP address of the IOT server devices will be connecting to."
-               inputRef={node => this.IOTServerIPFiled = node}/>
-        <Input hintText="Port number" tipText="Port number of the IOT server."
-               inputRef={node => this.IOTPortField = node}/>
+        <h2>IoT server details</h2>
+        <Input hintText="IP address" tipText="IP address of the IoT server devices will be connecting to."
+               inputRef={node => this.IOTServerIPField = node} defaultValue={this.iotAPIServerAddr}/>
+        <Input hintText="Port number" tipText="Port number of the IoT server."
+               inputRef={node => this.IOTPortField = node} defaultValue={this.iotAPIServerPort}/>
       </Paper>
     }
 

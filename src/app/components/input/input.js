@@ -9,7 +9,8 @@ export default class Input extends React.Component {
                         hintText={this.props.hintText}
                         fullWidth={true}
                         ref={this.props.inputRef}
-                        onChange={this.props.onChange}/>
+                        onChange={this.props.onChange}
+                        defaultValue={this.props.defaultValue}/>
              <Tip text={this.props.tipText}/>
            </div>
   }

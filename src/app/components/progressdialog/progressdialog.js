@@ -11,8 +11,9 @@ import request from 'request'
 import progress from 'request-progress'
 import { write } from 'etcher-image-write'
 import { umount } from 'umount'
-import readYaml from 'js-yaml'
-import writeYaml from 'write-yaml'
+import yamljs from 'yamljs'
+import writeFile from 'write'
+
 
 export default class ProgressDialog extends React.Component {
   constructor (props) {
@@ -162,7 +163,7 @@ export default class ProgressDialog extends React.Component {
     this.mount()
 
     // Update device initial configuration.
-    writeYaml.sync(`${this.tempMount}/device-init.yaml`, this.getDeviceConfig())
+    this.writeFile(`${this.tempMount}device-init.yaml`, this.getDeviceConfig())
 
     // Unmount device.
     this.unmount()
@@ -171,39 +172,32 @@ export default class ProgressDialog extends React.Component {
     this.close()
   }
 
-  // sed command to insert iot-server ip:port into device-init.yal
-  getCMDToExecute () {
-    let file = ' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf"',
-      pre = '"sed -i \'s/IOT_IP_ADDRESS:PORT/',
-      post = '/\''
-    let defaultIOTServerIP = '104.155.11.172', defaultIOTPort = '8085', iotServerIpPort = ''
-
-    if (this.IOTServerIP.length > 0) {
-      iotServerIpPort = `${this.IOTServerIP}`
-    } else {
-      iotServerIpPort = defaultIOTServerIP
+  writeFile(dest, data) {
+    if (typeof dest !== 'string') {
+      throw new TypeError('expected dest to be a string.');
+    }
+    if (typeof data !== 'object') {
+      throw new TypeError('expected data to be an object.');
     }
 
-    iotServerIpPort.concat(':')
-
-    if (this.IOTPort.length > 0) {
-      iotServerIpPort.concat(`${this.IOTPort}`)
-    } else {
-      iotServerIpPort.concat(defaultIOTPort)
+    try {
+      return writeFile.sync(dest, yamljs.stringify(this.getDeviceConfig()));
+    } catch (err) {
+      err.message = 'failed to write "' + dest + '": ' + err.message;
+      throw err;
     }
+  }
 
-    return pre.concat(iotServerIpPort).concat(post).concat(file)
+  getSedCommand(pattern, replaceWith, filePath) {
+    return `sed -i s/${pattern}/${replaceWith}/ ${filePath}`
   }
 
   getDeviceConfig () {
     let config = {
       hostname: `${this.hostname}-${this.generateSuffix()}`,
-      runcmd: [this.getCMDToExecute()],
-      runcmd1: [`${this.getCMDToExecute()}`],
-      runcmd3: ['"0.10"', '"0.11"']
+      runcmd: [this.getSedCommand('IOT_IP_ADDRESS:PORT', `${this.IOTServerIP}:${this.IOTPort}`,
+      '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf')],
     }
-
-    config.runcmd4 = ["sed -i 's/IOT_IP_ADDRESS:PORT/127.0.0.1/' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf"]
 
     if (this.ssid.length > 0) {
       config.wifi = {
