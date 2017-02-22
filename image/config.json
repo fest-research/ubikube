@@ -2,7 +2,7 @@
                 "name": "HypriotOS",
                 "version": 1.0,
                 "compressedMD5": "554995ccc747827855a2f352153a1ee271b89bcd",
-                "uncompressedMD5": "5346bfd010fd868dd7f7d84c155f9bc8ea1ef784",
+                "uncompressedMD5": "0a551ebb1b8cc01ef703c1b7fc23f82ce9cae7bd",
                 "downloadUrl": "https://github.com/fest-research/image-builder-rpi/releases/download/v1.2.2/ubikube-rpi-dirty.img.zip",
                 "uncompressedSize": 1363148800,
                 "filename": "ubikube-rpi-dirty.img",
