@@ -2,7 +2,8 @@
 Application flashing cards for microcontrollers.
 
 ## Setup
-Just run:
+Currently no binaries are packaged. To build from source:
+
 
 ```
 sudo apt-get install p7zip-full
@@ -12,15 +13,19 @@ npm i
 sudo env PATH="$PATH" npm start
 ```
 
-## Tools
+Please note: support for Windows is not fully implemented 
 
-- File formatting - `npm run format`
+
 
 ## Interface
 <p align="center">
     <img src="assets/main-view.png"/>
     <img src="assets/progress-view.png"/>
 </p>
+
+## Tools
+
+- File formatting - `npm run format`
 
 ## Possible enhancements
 
