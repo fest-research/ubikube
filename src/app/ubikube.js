@@ -23,7 +23,7 @@ export default class Ubikube extends React.Component {
       isFlashEnabled: false
     }
 
-    this.iotAPIServerAddr = "104.155.11.172";
+    this.iotAPIServerAddr = "35.187.21.121";
     this.iotAPIServerPort = "8085";
 
     this._switchAdvancedSectionVisibility = this._switchAdvancedSectionVisibility.bind(this)
