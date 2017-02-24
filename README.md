@@ -12,6 +12,9 @@ cd ubikube
 npm i
 sudo env PATH="$PATH" npm start
 ```
+Please fill:
+- Name of the device
+- IP address of the Kubernetes master
 
 Please note: support for Windows is not fully implemented 
 
