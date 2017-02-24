@@ -22,7 +22,7 @@ function createWindow () {
   }))
 
   // Uncomment to open developer tools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null
