@@ -189,13 +189,13 @@ export default class ProgressDialog extends React.Component {
   }
 
   getSedCommand(pattern, replaceWith, filePath) {
-    return `sed -i s/${pattern}/${replaceWith}/ ${filePath}`
+    return `sed -i s#${pattern}#${replaceWith}# ${filePath}`
   }
 
   getDeviceConfig () {
     let config = {
       hostname: `${this.hostname}-${this.generateSuffix()}`,
-      runcmd: [this.getSedCommand('IOT_IP_ADDRESS:PORT', `${this.IOTServerIP}:${this.IOTPort}`,
+      runcmd: [this.getSedCommand('IOT_IP_ADDRESS:PORT', `${this.IOTServerIP}:8080/api/v1/proxy/namespaces/kube-system/services/iot-apiserver`,
       '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf')],
     }
 

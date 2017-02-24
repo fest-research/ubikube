@@ -71,8 +71,6 @@ export default class Ubikube extends React.Component {
         <h2>IoT server details</h2>
         <Input hintText="IP address" tipText="IP address of the IoT server devices will be connecting to."
                inputRef={node => this.IOTServerIPField = node} defaultValue={this.iotAPIServerAddr}/>
-        <Input hintText="Port number" tipText="Port number of the IoT server."
-               inputRef={node => this.IOTPortField = node} defaultValue={this.iotAPIServerPort}/>
       </Paper>
     }
 
