@@ -196,7 +196,7 @@ export default class ProgressDialog extends React.Component {
     let config = {
       hostname: `${this.hostname}-${this.generateSuffix()}`,
       runcmd: [this.getSedCommand('IOT_IP_ADDRESS:PORT', `${this.IOTServerIP}:8080/api/v1/proxy/namespaces/kube-system/services/iot-apiserver`,
-      '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf')],
+      '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'), 'systemctl daemon-reload', 'systemctl restart kubelet'],
     }
 
     if (this.ssid.length > 0) {
